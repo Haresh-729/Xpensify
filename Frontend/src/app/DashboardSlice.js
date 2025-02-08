@@ -7,7 +7,7 @@ const initialState = {
     account: localData ? localData : [],
     isLoggedIn: localData ? localData.isLoggedIn :true,
     profileData: [],
-    role: "user", //"user", "company", "superAdmin"
+    role: localData ? localData.role : "user", //"user", "company", "superAdmin"
 };
 
 const DashboardSlice = createSlice({
@@ -40,7 +40,7 @@ const DashboardSlice = createSlice({
             state.profileData = [];
             state.isLoggedIn = false;
             state.dashboardMenuState = false;
-            state.dashboardFeature = "dashboard";
+            state.dashboardFeature = "Main";
             // localStorage.removeItem("account");
             localStorage.clear();
         },
