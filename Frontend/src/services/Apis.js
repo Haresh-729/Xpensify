@@ -13,3 +13,11 @@ export const profileEndPoints = {
     GET_PROFILE: BaseURL + "profile/",
     
 }
+
+export const policyEndPoints = {
+    CREATE_POLICY: BaseURL + "api/policy/", // Create new policy
+    GET_ALL_EVENT_POLICIES: BaseURL + "api/policy/events", // Get formatted event policies
+    GET_EVENT_POLICIES: (event_id) => BaseURL + `api/policy/event/${event_id}`, // Get event policies by event ID
+    DELETE_POLICY: (policy_id) => BaseURL + `api/policy/policy/${policy_id}`, // Delete policy by policy ID
+    GET_CATEGORIES: BaseURL + "api/policy/categories", // Get all categories
+}

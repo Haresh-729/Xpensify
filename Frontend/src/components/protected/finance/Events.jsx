@@ -12,6 +12,8 @@ const EventsGrid = () => {
   });
 
   // Dummy policies data
+
+
  const policies = 
      [
       { 
@@ -45,6 +47,7 @@ const EventsGrid = () => {
       }
     ]
   ;
+
 
   // Dummy event data
   const events = [
