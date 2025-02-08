@@ -15,7 +15,7 @@ import {
 // import logo from "../../assets/logoX.png";
 // import logo_text from "../../assets/logoX.png";
 
-import logoW from "../../assets/logox.png"
+import logoW from "../../assets/logoX.png"
 import logof from "../../assets/logo3.png"
 import solarDesert from "../../assets/landing/desertSolar.png";
 import landing from "../../assets/land2.svg";

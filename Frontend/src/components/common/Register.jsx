@@ -1,6 +1,6 @@
 import { register } from "../../services/repository/userRepo";
 import { useState } from "react";
-import loginAnimation from "../../assets/Login.svg";
+import loginAnimation from "../../assets/login.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 // import Video from '../protected/All/Video';
