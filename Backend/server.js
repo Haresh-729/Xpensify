@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
+require("../Backend/services/cronJob/cronJob");
 const authRoutes = require('./routes/auth');
 const accountRoutes = require('./routes/account');
 const profileRoutes = require('./routes/profile');
