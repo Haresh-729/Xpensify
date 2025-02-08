@@ -3,17 +3,20 @@ import React, { useState } from "react";
 const TabCard = ({ tabs, activeTab, onTabChange, content, onPreview }) => {
   const [formDataState, setFormDataState] = useState(
     content.reduce((acc, curr) => {
-      acc[curr.tab] = {}; // Create an empty object for each tab
-      curr.sections.forEach((section) => {
-        section.rows.forEach((row) => {
-          row.cols.forEach((col) => {
-            acc[curr.tab][col.label] = ""; // Initialize fields to empty strings
+      if (curr.isEdit === 1) {  // Use strict equality check
+        acc[curr.tab] = {}; 
+        curr.sections.forEach((section) => {
+          section.rows.forEach((row) => {
+            row.cols.forEach((col) => {
+              acc[curr.tab][col.label] = ""; 
+            });
           });
         });
-      });
+      }
       return acc;
     }, {})
   );
+
   const handleInputChange = (tab, label, value) => {
     setFormDataState((prevState) => ({
       ...prevState,
@@ -23,27 +26,30 @@ const TabCard = ({ tabs, activeTab, onTabChange, content, onPreview }) => {
       },
     }));
   };
+
   const handleButtonClick = (action) => {
     if (action === "Preview") {
       console.log("Preview Data:", formDataState[activeTab]);
       onPreview(formDataState[activeTab]);
-    //   setFormDataState(content.reduce((acc, curr) => {
-    //     acc[curr.tab] = {}; // Create an empty object for each tab
-    //     curr.sections.forEach((section) => {
-    //       section.rows.forEach((row) => {
-    //         row.cols.forEach((col) => {
-    //           acc[curr.tab][col.label] = ""; // Initialize fields to empty strings
-    //         });
-    //       });
-    //     });
-    //     return acc;
-    //   }, {})) 
+      // Uncomment if you want to reset state after preview
+      // setFormDataState(content.reduce((acc, curr) => {
+      //   if (curr.isEdit === 1) {
+      //     acc[curr.tab] = {};
+      //     curr.sections.forEach((section) => {
+      //       section.rows.forEach((row) => {
+      //         row.cols.forEach((col) => {
+      //           acc[curr.tab][col.label] = "";
+      //         });
+      //       });
+      //     });
+      //   }
+      //   return acc;
+      // }, {}));
     }
   };
 
-  const contentForTab = content.reduce((acc, tabData) => {
-    const { tab, sections, buttons } = tabData;
-    acc[tab] = (
+  const renderSections = (sections, buttons) => {
+    return (
       <>
         {sections.map((section, sectionIndex) => (
           <div key={`section-${sectionIndex}`}>
@@ -70,26 +76,18 @@ const TabCard = ({ tabs, activeTab, onTabChange, content, onPreview }) => {
                         <input
                           type={type}
                           placeholder={placeholder}
-                          value={formDataState[activeTab][col.label] || ""}
+                          value={formDataState[activeTab]?.[col.label] || ""}
                           onChange={(e) =>
-                            handleInputChange(
-                              activeTab,
-                              col.label,
-                              e.target.value
-                            )
+                            handleInputChange(activeTab, col.label, e.target.value)
                           }
                           className="w-full border rounded-lg p-3 bg-light-gray text-superiory-blue placeholder-superiory-blue"
                         />
                       )}
                       {element === "select" && (
                         <select
-                          value={formDataState[activeTab][col.label] || ""}
+                          value={formDataState[activeTab]?.[col.label] || ""}
                           onChange={(e) =>
-                            handleInputChange(
-                              activeTab,
-                              col.label,
-                              e.target.value
-                            )
+                            handleInputChange(activeTab, col.label, e.target.value)
                           }
                           className="w-full border rounded-lg p-3 bg-light-gray text-superiory-blue"
                         >
@@ -103,38 +101,40 @@ const TabCard = ({ tabs, activeTab, onTabChange, content, onPreview }) => {
                 })}
               </div>
             ))}
+
+            {/* Buttons */}
+            <div className="flex items-center justify-center w-full gap-4 pt-[2rem]">
+              {buttons.map((button, buttonIndex) => (
+                <button
+                  key={`button-${buttonIndex}`}
+                  className={button.styling}
+                  onClick={() => handleButtonClick(button.text)}
+                >
+                  {button.text}
+                </button>
+              ))}
+            </div>
           </div>
         ))}
-        {/* Buttons */}
-        <div className="flex items-center justify-center w-full gap-4 pt-[2rem]">
-          {buttons.map((button, buttonIndex) => (
-            <button
-              key={`button-${buttonIndex}`}
-              className={button.styling}
-              onClick={() => handleButtonClick(button.text)}
-            >
-              {button.text}
-            </button>
-          ))}
-        </div>
       </>
     );
+  };
 
+  const contentForTab = content.reduce((acc, tabData) => {
+    const { tab, isEdit, sections, buttons } = tabData;
+    acc[tab] = isEdit === 1 ? renderSections(sections, buttons) : null;
     return acc;
   }, {});
 
   return (
     <div className="relative bg-white rounded-lg shadow-lg w-full max-w-8xl mx-auto my-6 p-6 h-[calc(100vh-150px)]">
-      {/* Tabs Navigation as Bookmarks */}
       <div className="flex flex-col md:flex-row gap-2 justify-center space-x-4 relative mb-4">
         {tabs.map((tab, index) => (
           <button
             key={index}
             onClick={() => onTabChange(tab)}
             className={`w-full relative px-4 py-3 rounded-tl-lg text-center font-semibold text-dark-blue transition-all ${
-              activeTab === tab
-                ? "bg-yellow border-none "
-                : "bg-gray-200 border-none"
+              activeTab === tab ? "bg-yellow border-none" : "bg-gray-200 border-none"
             }`}
           >
             {tab}
@@ -142,12 +142,10 @@ const TabCard = ({ tabs, activeTab, onTabChange, content, onPreview }) => {
         ))}
       </div>
 
-      {/* Close Button */}
-      <button className="flex flex-row items-center justify-center absolute top-4 right-4 text-red bg-white w-[2rem] h-[2rem] text-2xl font-bold">
+      <button className="flex flex-row items-center justify-center absolute top-4 right-4 text-red bg-white w-[2rem] h-[2rem] text-2xl font-bold cursor-pointer hover:bg-gray-100">
         &times;
       </button>
 
-      {/* Dynamic Content */}
       <div className="border border-gray-200 rounded-lg p-6 overflow-y-auto max-h-[calc(100vh-280px)] scrollbar-hide">
         {contentForTab[activeTab]}
       </div>
