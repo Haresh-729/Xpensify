@@ -5,7 +5,7 @@ import { getDeteiledProfile } from "../../../services/repository/profileRepo";
 import { getAfterFetchEmpty } from '../../../app/ProfileSlice';
 import DynamicCard from "../../utils/TabCard";
 
-const tabs = ["Add Profile"];
+const tabs = ["Display Profile","Add Profile"];
 
 const Profile = () => {
 
@@ -16,7 +16,7 @@ const Profile = () => {
         dispatch(getDeteiledProfile(navigate));
     }, []);
 
-    const flag = useSelector(getAfterFetchEmpty);
+    const flag = true;//useSelector(getAfterFetchEmpty);
 
     const [activeTab, setActiveTab] = useState(tabs[0]);
 
@@ -25,10 +25,23 @@ const Profile = () => {
         setPreviewData(data);
         // You can now handle this data, e.g., show it in a modal, log it, etc.
       };
+      const displayContent = () => {
+        return(
+          <div>Hello Display Card</div>
+        );
+      }
 
     const formData = [
         {
+          tab: "Display Profile",
+          isEdit: 0,
+          sections: [],
+          buttons: [],
+          displayContent: displayContent
+        },
+        {
           tab: "Add Profile",
+          isEdit: 1,
           sections: [
             {
               subHeading: "Personal Documents",
