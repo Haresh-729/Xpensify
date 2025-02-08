@@ -10,13 +10,14 @@ import {
   ChevronDoubleLeftIcon,
   GlobeEuropeAfricaIcon,
 } from "@heroicons/react/24/solid";
-import Main from "../components/protected/user/EmployeeForm";
-import MainCompany from "../components/protected/company/Main";
-import MainSA from "../components/protected/superAdmin/Main";
-import Orders from "../components/protected/all/EventForm";
+
+import Main from "../components/protected/user/Main";
+import MainManager from "../components/protected/finance/Main";
+import MainSA from "../components/protected/manager/Main";
+import Orders from "../components/protected/all/Orders";
 import UserProfile from "../components/protected/user/Profile";
-import CompanyProfile from "../components/protected/company/Profile";
-//userROles = "user", "company", "superAdmin"
+import FinanceProfile from "../components/protected/finance/Profile";
+//userROles = "manager", "finance", "user"
 const features = [
   {
     featureName: "Main",
@@ -28,21 +29,21 @@ const features = [
   {
     featureName: "Main",
     displayName: "Home",
-    allowedRoles: ["company"],
+    allowedRoles: ["finance"],
     logoUsed: UserIcon,
-    page: MainCompany,
+    page: MainManager,
   },
   {
     featureName: "Orders",
     displayName: "Orders",
-    allowedRoles: ["user", "company", "superAdmin"],
+    allowedRoles: ["user", "finance", "manager"],
     logoUsed: UserIcon,
     page: Orders,
   },
   {
     featureName: "Main",
     displayName: "Home",
-    allowedRoles: ["superAdmin"],
+    allowedRoles: ["manager"],
     logoUsed: UserIcon,
     page: MainSA,
   },
@@ -58,9 +59,9 @@ const features = [
   {
     featureName: "Profile",
     displayName: "Profile",
-    allowedRoles: ["company"],
+    allowedRoles: ["finance"],
     logoUsed: UserIcon,
-    page: CompanyProfile,
+    page: FinanceProfile,
   },
 ];
 
