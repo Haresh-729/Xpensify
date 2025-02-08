@@ -1,9 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
 import {
-  FaSun,
-  FaWind,
-  FaChartBar,
+  FaReceipt,
+  FaShieldAlt,
+  FaChartPie,
   FaMapMarkerAlt,
   FaEnvelope,
   FaPhone,
@@ -16,9 +16,9 @@ import {
 // import logo_text from "../../assets/logoX.png";
 
 import logoW from "../../assets/logox.png"
-import logo_text from "../../assets/logoX.png"
+import logof from "../../assets/logo3.png"
 import solarDesert from "../../assets/landing/desertSolar.png";
-import landing from "../../assets/landing/landing.png";
+import landing from "../../assets/land2.svg";
 import coastalWind from "../../assets/landing/costalWind.png";
 import rSOlar from "../../assets/landing/rsolar.png";
 import solarFarm from "../../assets/landing/SolarFarm.png";
@@ -38,27 +38,28 @@ const Landing = () => {
 
   const features = [
     {
-      icon: <FaSun className="w-12 h-12 text-avocado" />,
-      title: "Invest in Renewable Energy",
+      icon: <FaReceipt className="w-12 h-12 text-avocado" />,
+      title: "Instant Receipt Scanning",
       description:
-        "Access carefully vetted renewable energy projects with potential returns of 5-15% annually.",
+        "Use AI-powered OCR to capture and categorize expenses instantly—no manual entry needed.",
       link: "Learn more →",
     },
     {
-      icon: <FaChartBar className="w-12 h-12 text-avocado" />,
-      title: "Track Carbon Offset",
+      icon: <FaShieldAlt className="w-12 h-12 text-avocado" />,
+      title: "Fraud Detection & Compliance",
       description:
-        "Monitor your environmental impact in real-time with our advanced carbon tracking dashboard.",
+        "Automatically flag suspicious transactions and ensure policy compliance in real time.",
       link: "Learn more →",
     },
     {
-      icon: <FaWind className="w-12 h-12 text-avocado" />,
-      title: "AI Risk Assessment",
+      icon: <FaChartPie className="w-12 h-12 text-avocado" />,
+      title: "Real-Time Expense Insights",
       description:
-        "Our AI-powered system analyzes projects to provide you with comprehensive risk insights.",
+        "Gain detailed spending analytics to optimize budgets and improve financial transparency.",
       link: "Learn more →",
     },
   ];
+  
 
   const projects = [
     {
@@ -89,28 +90,28 @@ const Landing = () => {
 
   const testimonials = [
     {
-      name: "Sarah Johnson",
-      role: "Angel Investor",
+      name: "Michael Roberts",
+      role: "Finance Manager",
       content:
-        "ReGenest made it easy for me to diversify my portfolio while contributing to environmental sustainability.",
+        "Xpensify streamlined our expense reporting, saving hours of manual work and reducing errors.",
       avatar: test1,
     },
     {
-      name: "David Chen",
-      role: "Environmental Consultant",
+      name: "Lisa Thompson",
+      role: "HR Director",
       content:
-        "The transparency and detailed project analysis helped me make informed investment decisions.",
+        "The AI-powered fraud detection has significantly improved our compliance and prevented unnecessary spending.",
       avatar: test2,
     },
     {
-      name: "Emma Williams",
-      role: "Tech Entrepreneur",
+      name: "James Patel",
+      role: "Startup Founder",
       content:
-        "I'm impressed by the professional approach and the consistent returns on my investments.",
+        "Real-time insights and automated tracking have transformed the way we manage company expenses.",
       avatar: test3,
     },
   ];
-
+  
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white scrollbar-hide">
       {/* Navigation */}
@@ -121,22 +122,21 @@ const Landing = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="container mx-auto px-4 py-16 grid grid-cols-2 gap-8"
+        className="container mx-auto px-4 py-16 grid grid-cols-2 gap-8 "
       >
-        <div className="space-y-6 flex flex-col justify-end">
-          <h1 className="text-5xl font-bold">AI-Powered Expense Tracking, Fraud-Free Financials</h1>
+        <div className="space-y-6 flex flex-col justify-center">
+          <h1 className="text-4xl font-bold">AI-Powered Expense Tracking, Fraud-Free Financials</h1>
           <p className="text-xl text-gray-600">
-            Join thousands of investors funding renewable energy projects
-            worldwide. Make a profit while making a difference.
+          Xpensify revolutionizes expense management with AI-powered OCR, fraud detection, and automated compliance. Instantly scan receipts, eliminate manual entry, and gain real-time spending insights. Smarter, faster, and more secure—Xpensify makes expense management effortless.
           </p>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="px-6 py-3 bg-avocado text-white rounded-md text-lg hover:bg-green-700"
+            className="px-6 py-3 w-[16rem] bg-avocado text-white rounded-md text-lg hover:bg-green-700"
           >
             Get Started
           </motion.button>
-          <div className="grid grid-cols-3 gap-8 pt-8">
+          {/* <div className="grid grid-cols-3 gap-8 pt-8">
             {stats.map((stat, index) => (
               <motion.div
                 key={index}
@@ -150,7 +150,7 @@ const Landing = () => {
                 <div className="text-gray-600">{stat.label}</div>
               </motion.div>
             ))}
-          </div>
+          </div> */}
         </div>
         <motion.div
           initial={{ opacity: 0, x: 20 }}
@@ -167,10 +167,10 @@ const Landing = () => {
       </motion.div>
 
       {/* Features Section */}
-      <section className="py-16 bg-white">
+      <section className="py- bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">
-            Why Choose ReGenest
+            Why Choose Xpensify
           </h2>
           <div className="grid grid-cols-3 gap-8">
             {features.map((feature, index) => (
@@ -194,32 +194,32 @@ const Landing = () => {
       </section>
 
       {/* Global Impact Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-12">
-            Global Impact
-          </h2>
-          <div className="relative h-96 rounded-xl overflow-hidden">
-            <img src={maps} alt="Map" className="w-full h-full object-cover" />
-            <div className="absolute top-4 right-4 bg-white p-4 rounded-lg shadow-lg">
-              <h3 className="font-semibold mb-4">Active Projects</h3>
-              {projects.map((project, index) => (
-                <div key={index} className="flex items-center space-x-2 mb-2">
-                  <FaMapMarkerAlt className="w-4 h-4 text-avocado" />
-                  <span className="text-sm">
-                    {project.title}, {project.location}
-                  </span>
-                  <span className="text-sm text-gray-600">
-                    ${project.investment} Raised
-                  </span>
-                </div>
-              ))}
+        {/* <section className="py-16 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center mb-12">
+              Global Impact
+            </h2>
+            <div className="relative h-96 rounded-xl overflow-hidden">
+              <img src={maps} alt="Map" className="w-full h-full object-cover" />
+              <div className="absolute top-4 right-4 bg-white p-4 rounded-lg shadow-lg">
+                <h3 className="font-semibold mb-4">Active Projects</h3>
+                {projects.map((project, index) => (
+                  <div key={index} className="flex items-center space-x-2 mb-2">
+                    <FaMapMarkerAlt className="w-4 h-4 text-avocado" />
+                    <span className="text-sm">
+                      {project.title}, {project.location}
+                    </span>
+                    <span className="text-sm text-gray-600">
+                      ${project.investment} Raised
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section> */}
 
-      {/* Success Stories */}
+      {/* Success Stories
       <section className="py-16">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">
@@ -263,7 +263,7 @@ const Landing = () => {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Testimonials */}
       <section className="py-16 bg-white">
@@ -327,14 +327,13 @@ const Landing = () => {
             <div>
               <div className="flex flex-row gap-2 items-center mb-[1rem] px-2">
                 <img
-                  className={`w-[2rem] sm:w-[2.5rem]`}
-                  src={logoW}
+                  className={`w-[10rem] sm:w-[10rem]`}
+                  src={logof}
                   alt="logo"
                 />
-                <img className={`h-[1.8rem]`}  alt="logo" />
               </div>
               <p className="text-gray-400">
-                Making renewable energy investment accessible to everyone.
+              Your AI-Powered Financial Guardian
               </p>
             </div>
             <div>
