@@ -8,8 +8,8 @@ import { isUserLoggedIn } from './src/app/DashboardSlice';
 import { VerifyEmail } from './src/components';
 import { Navbar } from './src/components';
 import CreateEvents from './src/components/protected/finance/CreateEvents';
-import ScanBill from './src/components/protected/user/ScanBill';
-import AllBills from './src/components/protected/manager/AllBills';
+import ScanBill from './src/components/protected/all/ScanBill';
+import AllBills from './src/components/protected/all/Reports';
 // import AddHospital from './src/components/protected/admin/AddHospital';
 
 

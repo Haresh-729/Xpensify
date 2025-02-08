@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Pencil, Trash2, X } from "lucide-react";
 
-const EventsGrid = () => {
+const Collections = () => {
   const [isPolicyModalOpen, setIsPolicyModalOpen] = useState(false);
   const [isNewPolicyModalOpen, setIsNewPolicyModalOpen] = useState(false);
   const [selectedEventId, setSelectedEventId] = useState(null);
@@ -340,4 +340,4 @@ const EventsGrid = () => {
   );
 };
 
-export default EventsGrid;
+export default Collections;
