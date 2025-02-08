@@ -34,7 +34,7 @@ const registerUser = async (userData) => {
   if (error) {
     throw error;
   } else {
-    // await sendVerificationEmail(email_id, otp); //Haresh uncomment this afterwards.
+     await sendVerificationEmail(email_id, otp); //Haresh uncomment this afterwards.
   }
   return data;
 };
@@ -57,7 +57,7 @@ const loginUser = async (email_id, password) => {
   if (!user.e_verified) throw new Error("Email is not verified.");
   if (!user.is_active) throw new Error("Account is Blocked or deleted.");
   const token = authService.generateToken(user);
-  user = { u_id:user.u_id, name:user.name, email:user.email, role_id:user.role_id, role:user.user_roles.name, isNew: user.isNew, token };
+  user = { u_id:user.u_id, name:user.name, email:user.email, role_id:user.role_id, role:user.user_roles.name, isNew: user.isnew, token };
   // console.log(user);
   return user;
 };

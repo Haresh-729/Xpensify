@@ -58,18 +58,18 @@ function NavBar() {
         </div>
         <div className="flex flex-row items-center justify-center gap-3">
         <div className="flex flex-row w-[100%] place-content-end items-center ">
-          <div className="flex flex-row w-auto mx-[.6rem] ">
-            <div className="flex items-center w-auto py-2 px-1 shadow-xl rounded-2xl border-dark-blue border-[.1rem]">
+          <div className="flex flex-row w-auto mx-[.6rem]  ">
+            <div className="flex items-center w-auto py-1 px-4 shadow-2xl rounded-2xl border-1 border-gray-400">
               <img
                 className="w-[2rem] rounded-"
                 src={acc.avatar ? acc.avatar : profile}
                 alt="profile"
               />
-              <div className="flex flex-col items-start justify-center px-1">
-                <h1 className="text-sm font-bold text-avocado hidden sm:flex">
+              <div className="flex flex-col items-start justify-center px-4">
+                <h1 className="text-m font-semibold text-black hidden sm:flex">
                   {acc.uname}{" "}
                 </h1>
-                <h1 className="text-sm font-bold text-yellow hidden sm:flex capitalize">
+                <h1 className="text-sm  text-yellow hidden sm:flex capitalize">
                   {acc.role}{" "}
                 </h1>
 
@@ -78,7 +78,7 @@ function NavBar() {
           </div>
         </div>
         <div className="flex items-center justify-center p-1 cursor-pointer" onClick={logout}>
-        <ArrowRightStartOnRectangleIcon className="w-[3rem] text-madder rounded-xl" />
+        <ArrowRightStartOnRectangleIcon className="w-[2rem] text-black rounded-xl" />
         </div>
         </div>
       </div>
