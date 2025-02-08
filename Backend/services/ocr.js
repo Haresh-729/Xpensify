@@ -66,7 +66,7 @@ const uploadBills = async (id,req) => {
       name: item.item_name,
       c_id: categoryId,
       qty: item.quantity,
-      rate: item.price,
+      amount: item.price,
       unit_id: 1, // Static or pre-defined value as per your requirement
       b_id: billId,
       reason: item.remark || null,

@@ -7,6 +7,7 @@ const profileRoutes = require('./routes/profile');
 const collectionRoutes = require('./routes/collection');
 const policyRoutes = require('./routes/policy');
 const ocrRoutes = require("./routes/ocr");
+const reportRoutes = require("./routes/report");
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/collection', collectionRoutes);
 app.use('/api/policy', policyRoutes);
 app.use('/api/ocr', ocrRoutes);
+app.use("/api/report", reportRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
