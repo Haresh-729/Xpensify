@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import loginAnimation from "../../assets/Login.svg";
+import loginAnimation from "../../assets/login.svg";
 import { useNavigate, Link } from "react-router-dom";
 import { login } from "../../services/repository/userRepo";
 import { GoogleLogin } from "@react-oauth/google";
