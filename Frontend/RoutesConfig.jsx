@@ -3,10 +3,12 @@ import { Routes, Route, Link } from "react-router-dom";
 import {  useSelector } from 'react-redux';
 
 import { Error, Dashboard, Login, Landing, Register } from './src/components';
+import  PolicyManager  from './src/components/protected/finance/PolicyManager';
 import { isUserLoggedIn } from './src/app/DashboardSlice';
 import { VerifyEmail } from './src/components';
 import { Navbar } from './src/components';
 import CreateEvents from './src/components/protected/finance/CreateEvents';
+import ScanBill from './src/components/protected/user/ScanBill';
 // import AddHospital from './src/components/protected/admin/AddHospital';
 
 
@@ -26,8 +28,9 @@ const RoutesConfig = () => {
             )
           }
           <Route path='/create_events' element={<CreateEvents/>}/>
+          <Route path="/scan-bill" element={<ScanBill />} />
         </Routes>
-  )
+  );
 }
 
 export default RoutesConfig

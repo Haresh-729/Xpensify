@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import logo from "../../assets/logox2.png";
-import logo2 from "../../assets/logox.png";
+import logo2 from "../../assets/logoX.png";
 
 const Navbar = ({ heroapi }) => {
   const dispatch = useDispatch();
