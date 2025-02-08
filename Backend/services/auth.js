@@ -7,7 +7,7 @@ const secret = process.env.JWT_SECRET || 'MasterMindAlternateSecret';
 // Function to generate a token
 exports.generateToken = (user) => {
   const payload = { id: user.u_id, email: user.email };
-  return jwt.sign(payload, secret, { expiresIn: '1h' });
+  return jwt.sign(payload, secret, { expiresIn: '1d' });
 };
 
 // Function to verify token

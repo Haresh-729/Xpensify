@@ -261,6 +261,24 @@ const resetPassword = async (token, newPassword) => {
     throw new Error(error.message);
   }
 };
+const getAllUsersByRole = async (role_id) => {
+  try {
+    // Validate the token and check expiry
+    const { data: usersData, error: fetchError } = await supabase
+      .from("users")
+      .select("u_id, name, email")
+      .eq("role_id", role_id)
+      .eq("is_active", true)
+      .eq("is_active", true);
+
+    if (fetchError) throw fetchError;
+    if (!usersData) throw new Error("No Users Found");
+
+    return { message: "Users Fetched", usersData };
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
 
 module.exports = {
   registerUser,
@@ -271,4 +289,5 @@ module.exports = {
   resendOTP,
   forgotPasswords,
   resetPassword,
+  getAllUsersByRole
 };

@@ -4,6 +4,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const accountRoutes = require('./routes/account');
 const profileRoutes = require('./routes/profile');
+const collectionRoutes = require('./routes/collection');
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/user', accountRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/collection', collectionRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

@@ -11,5 +11,11 @@ export const authEndpoints = {
 
 export const profileEndPoints = {
     GET_PROFILE: BaseURL + "profile/",
-    
+}
+
+export const userEndPoints = {
+    GET_USER_BY_ROLES: BaseURL + "user/user-by-roles/",
+}
+export const EventEndPoints = {
+    CREATE_COLLECTION: BaseURL + "collection/",
 }

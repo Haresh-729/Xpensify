@@ -6,6 +6,7 @@ import { Error, Dashboard, Login, Landing, Register } from './src/components';
 import { isUserLoggedIn } from './src/app/DashboardSlice';
 import { VerifyEmail } from './src/components';
 import { Navbar } from './src/components';
+import CreateEvents from './src/components/protected/finance/CreateEvents';
 // import AddHospital from './src/components/protected/admin/AddHospital';
 
 
@@ -24,6 +25,7 @@ const RoutesConfig = () => {
               <Route path='/Dashboard' className="transition-all scrollbar-hide" element={<Dashboard/>}/>
             )
           }
+          <Route path='/create_events' element={<CreateEvents/>}/>
         </Routes>
   )
 }
