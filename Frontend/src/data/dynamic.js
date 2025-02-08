@@ -16,8 +16,13 @@ import policies from "../components/protected/finance/Events";
 
 import MainManager from "../components/protected/finance/Main";
 import MainSA from "../components/protected/manager/Main";
+import Report from "../components/protected/manager/AllBills";
+import Approval from "../components/protected/manager/Approval";
+
+
 import UserProfile from "../components/protected/user/Profile";
 import FinanceProfile from "../components/protected/finance/Profile";
+
 //userROles = "manager", "finance", "user"
 const features = [
   {
@@ -41,6 +46,22 @@ const features = [
     logoUsed: UserIcon,
     page: MainSA,
   },
+  {
+    featureName: "Report",
+    displayName: "Report",
+    allowedRoles: ["manager"],
+    logoUsed: UserIcon,
+    page: Report,
+  },
+  {
+    featureName: "Approval",
+    displayName: "Approvals",
+    allowedRoles: ["manager"],
+    logoUsed: UserIcon,
+    page: Approval,
+  },
+
+
 
   //Profile Page Should be last...
   {
