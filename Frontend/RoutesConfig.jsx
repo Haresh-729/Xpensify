@@ -8,8 +8,7 @@ import { isUserLoggedIn } from './src/app/DashboardSlice';
 import { VerifyEmail } from './src/components';
 import { Navbar } from './src/components';
 import CreateEvents from './src/components/protected/finance/CreateEvents';
-import ScanBill from './src/components/protected/all/ScanBill';
-import AllBills from './src/components/protected/all/Reports';
+
 // import AddHospital from './src/components/protected/admin/AddHospital';
 
 
@@ -34,10 +33,6 @@ const RoutesConfig = () => {
           element={<Dashboard />}
         />
       )}
-      <Route path="/scan-bill" element={<ScanBill />} />
-      <Route path="/all-bills" element={<AllBills />} />
-      <Route path="/report" element={<AllBills />} />
-      <Route path="/create_events" element={<CreateEvents />} />
     </Routes>
   );
 }
