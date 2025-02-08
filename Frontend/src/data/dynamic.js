@@ -23,8 +23,6 @@ import Collections from "../components/protected/all/Collections";
 import UserProfile from "../components/protected/user/Profile";
 import FinanceProfile from "../components/protected/finance/Profile";
 import ManagerProfile from "../components/protected/manager/Profile";
-import Report from "../components/protected/manager/AllBills";
-import Approval from "../components/protected/manager/Approval";
 //userROles = "manager", "finance", "user"
 const features = [
   {
@@ -48,22 +46,6 @@ const features = [
     logoUsed: UserIcon,
     page: MainManager,
   },
-  {
-    featureName: "Report",
-    displayName: "Report",
-    allowedRoles: ["manager"],
-    logoUsed: UserIcon,
-    page: Report,
-  },
-  {
-    featureName: "Approval",
-    displayName: "Approvals",
-    allowedRoles: ["manager"],
-    logoUsed: UserIcon,
-    page: Approval,
-  },
-
-
 
   // following can be assigned to multiple users 
 
