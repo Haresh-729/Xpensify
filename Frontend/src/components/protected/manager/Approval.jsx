@@ -24,18 +24,19 @@ import { FaArrowLeft } from "react-icons/fa";
 const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff6f61", "#a28eec"];
 const COLORS2 = ["#FF5733", "#33FF57", "#3357FF", "#FF33A8", "#FFD433", "#33FFF5", "#8D33FF", "#FF3333", "#33FF85", "#FF8F33"];
 
-const AllBills = () => {
+const Approval = () => {
   const [billsData, setBillsData] = useState([]);
   const [loading, setLoading] = useState(false);
   const profileData = useSelector(selectAccount);
   const token = profileData?.token;
   const navigate = useNavigate();
+  const [isModal, setModeal] = useState(false);
+
 
   useEffect(() => {
     fetchBills();
-  }, []);
+  }, [isModal]);
 
-  const [isModal, setModeal] = useState(false);
 
   const fetchBills = async () => {
     if (!isModal) {
@@ -153,13 +154,14 @@ const AllBills = () => {
   };
 
   return (
-    <div className="flex justify-center">
+    <div className="flex w-full justify-center">
       {!isModal && (
         <div className="w-[70%] p-10 flex flex-col gap-4 bg-white shadow-md rounded-md">
-          <p className="text-2xl font-bold pl-2">All Bills</p>
+          <p className="text-2xl font-bold pl-2">Bill Approval</p>
           <Table
             columns={columns}
-            dataSource={billsData.map((bill) => ({ ...bill, key: bill.b_id }))}
+            dataSource={billsData.filter((bill) => bill.status === "Pending")
+              .map((bill) => ({ ...bill, key: bill.b_id }))}
             loading={loading}
             bordered
             pagination={{ pageSize: 10 }}
@@ -168,7 +170,7 @@ const AllBills = () => {
             })}
           />
 
-          <div className="flex flex-col items-center gap-6 mt-8">
+          {/* <div className="flex flex-col items-center gap-6 mt-8">
             <h3 className="text-xl font-semibold mb-5">Reports</h3>
             {loading ? (
               <Spin size="large" />
@@ -203,7 +205,7 @@ const AllBills = () => {
                 </BarChart>
               </div>
             )}
-          </div>
+          </div> */}
         </div>
       )}
       {isModal && (
@@ -213,11 +215,13 @@ const AllBills = () => {
   );
 };
 
-export default AllBills;
+export default Approval;
 
 const ModalDesign = ({ record, setModeal, token }) => {
   const [billsData, setBillsData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [actionLoading, setActionLoading] = useState(false); // Loading state for buttons
+
 
   const fetchBills = async () => {
     setLoading(true);
@@ -271,19 +275,40 @@ const ModalDesign = ({ record, setModeal, token }) => {
       amount: bill.amount,
     }));
 
-    const categoryMap = billsData.items.reduce((acc, bill) => {
-      const category =
-        bill.category?.name || bill.predicted_cat || "Uncategorized";
-      acc[category] = (acc[category] || 0) + bill.amount;
-      return acc;
-    }, {});
-
-    pieChartData = Object.entries(categoryMap).map(([category, value]) => ({
-      name: category,
-      value,
+    pieChartData = billsData.items.map((bill) => ({
+      name: bill.name,
+      value: bill.amount,
     }));
-
   }
+
+  const handleAction = async (status) => {
+    if (!record?.b_id) {
+      message.error("Invalid Bill ID. Please try again.");
+      return;
+    }
+  
+    setActionLoading(true);
+    try {
+      const response = await axios.put(
+        "http://localhost:3000/api/report/getBillApproval",
+        { b_id: parseInt(record.b_id, 10), status }, // Ensure b_id is an integer
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+  
+      if (response.data.success) {
+        message.success(`Bill ${status === 1 ? "Accepted" : "Rejected"}!`);
+        setModeal(null); // Close modal after action
+      } else {
+        throw new Error(response.data.message || "Failed to update bill status.");
+      }
+    } catch (error) {
+      console.error(`Error updating bill status:`, error);
+      message.error("Failed to update bill status. Please try again.");
+    } finally {
+      setActionLoading(false);
+    }
+  };
+  
 
   return (
     <div className=" flex justify-center w-full">
@@ -370,6 +395,22 @@ const ModalDesign = ({ record, setModeal, token }) => {
             <Tooltip />
           </PieChart>
         </div>
+        <div className="flex justify-center gap-4 mt-6">
+            <button
+              onClick={() => handleAction(1)}
+              disabled={actionLoading}
+              className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
+            >
+              {actionLoading ? <Spin size="small" /> : "Accept"}
+            </button>
+            <button
+              onClick={() => handleAction(2)}
+              disabled={actionLoading}
+              className="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+            >
+              {actionLoading ? <Spin size="small" /> : "Reject"}
+            </button>
+          </div>
       </div>
     </div>
   );

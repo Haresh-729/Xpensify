@@ -110,8 +110,27 @@ const getBillDetails = async (id, req) => {
     return response;
 };
 
+const billApproval = async (Bdata) => {
+  const { b_id, status } = Bdata; 
+  console.log(b_id);
+
+  if (!b_id || isNaN(parseInt(b_id, 10))) {
+    return res.status(400).json({ success: false, message: "Invalid Bill ID" });
+  }
+  const { data, error } = await supabase
+    .from("bills")
+    .update({ status })
+    .eq("b_id", b_id)
+    .select("*")
+    .single();
+   
+    if (error) throw error;
+    return data;
+}
+
 module.exports = {
   listBills,
   getBillDetails,
+  billApproval,
   listUserBills
 };
