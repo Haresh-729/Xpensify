@@ -128,8 +128,10 @@ const Register = () => {
                 <option value="" disabled>
                   Select a role
                 </option>
-                <option value="1">User</option>
-                <option value="2">Company</option>
+                <option value="1">Manager</option>
+                <option value="2">Finance</option>
+                <option value="3">employee</option>
+
               </select>
             </div>
 

@@ -10,6 +10,7 @@ import {
   ChevronDoubleLeftIcon,
   GlobeEuropeAfricaIcon,
 } from "@heroicons/react/24/solid";
+
 import Main from "../components/protected/user/Main";
 import MainManager from "../components/protected/finance/Main";
 import MainSA from "../components/protected/manager/Main";
