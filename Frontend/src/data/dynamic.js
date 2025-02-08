@@ -14,7 +14,6 @@ import {
 import Main from "../components/protected/user/Main";
 import MainManager from "../components/protected/finance/Main";
 import MainSA from "../components/protected/manager/Main";
-import Orders from "../components/protected/all/Orders";
 import UserProfile from "../components/protected/user/Profile";
 import FinanceProfile from "../components/protected/finance/Profile";
 //userROles = "manager", "finance", "user"
@@ -32,13 +31,6 @@ const features = [
     allowedRoles: ["finance"],
     logoUsed: UserIcon,
     page: MainManager,
-  },
-  {
-    featureName: "Orders",
-    displayName: "Orders",
-    allowedRoles: ["user", "finance", "manager"],
-    logoUsed: UserIcon,
-    page: Orders,
   },
   {
     featureName: "Main",
