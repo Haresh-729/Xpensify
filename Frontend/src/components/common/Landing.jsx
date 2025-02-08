@@ -15,7 +15,7 @@ import {
 // import logo from "../../assets/logoX.png";
 // import logo_text from "../../assets/logoX.png";
 
-import logoW from "../../assets/logoX.png"
+import logoW from "../../assets/logox.png"
 import logo_text from "../../assets/logoX.png"
 import solarDesert from "../../assets/landing/desertSolar.png";
 import landing from "../../assets/landing/landing.png";
@@ -124,7 +124,7 @@ const Landing = () => {
         className="container mx-auto px-4 py-16 grid grid-cols-2 gap-8"
       >
         <div className="space-y-6 flex flex-col justify-end">
-          <h1 className="text-5xl font-bold">Invest in a Greener Future</h1>
+          <h1 className="text-5xl font-bold">AI-Powered Expense Tracking, Fraud-Free Financials</h1>
           <p className="text-xl text-gray-600">
             Join thousands of investors funding renewable energy projects
             worldwide. Make a profit while making a difference.

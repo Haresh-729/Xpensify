@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import logo from "../../assets/logoX.png";
+import logo from "../../assets/logox.png";
 import logo_text from "../../assets/ReGenest_text.png";
 
 const Navbar = ({ heroapi }) => {
@@ -51,7 +51,7 @@ const Navbar = ({ heroapi }) => {
     >
       <nav className="flex justify-between items-center p-2 lg:px-10">
         <div className="flex flex-row gap-2 items-center mb-[1rem] mt-2">
-          <img className={`w-[5rem] sm:w-[2.5rem]`} src={logo} alt="logo" />
+          <img className={`w-[10rem] sm:w-[10rem]`} src={logo} alt="logo" />
           {/* <img className={`h-[1.8rem]`} src={logo_text} alt="logo" /> */}
         </div>
         <div className="flex space-x-6">
