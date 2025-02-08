@@ -34,7 +34,7 @@ const registerUser = async (userData) => {
   if (error) {
     throw error;
   } else {
-    // await sendVerificationEmail(email_id, otp); //Haresh uncomment this afterwards.
+    await sendVerificationEmail(email_id, otp); //Haresh uncomment this afterwards.
   }
   return data;
 };
