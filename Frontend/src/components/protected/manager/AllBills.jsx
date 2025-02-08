@@ -319,7 +319,7 @@ const ModalDesign = ({ record, setModeal, token }) => {
                   <Tooltip />
                   <Legend />
                   <Bar dataKey="quantity">
-                    {barChartData.map((entry, index) => (
+                    {barChartData?.map((entry, index) => (
                       <Cell
                         key={`cell-${index}`}
                         fill={COLORS2[index % COLORS2.length]}
