@@ -1,16 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectAccount } from '../../../app/DashboardSlice';
+import axios from 'axios';
 
 const PolicyManager = () => {
-  const [policies, setPolicies] = useState([
-    { id: 1, name: 'Data Protection Policy', description: 'Guidelines for handling sensitive data', lastUpdated: '2024-02-08' },
-    { id: 2, name: 'Security Policy', description: 'IT security protocols and procedures', lastUpdated: '2024-02-07' },
-  ]);
+  const [policies, setPolicies] = useState(null);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [newPolicy, setNewPolicy] = useState({
     name: '',
     description: ''
   });
+  const [loading, setLoading] = useState(false);
+  const profileData = useSelector(selectAccount);
+  const token = profileData?.token;
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,6 +28,7 @@ const PolicyManager = () => {
     setNewPolicy({ name: '', description: '' });
     setIsModalOpen(false);
   };
+  
 
   return (
     <div className="max-w-4xl mx-auto p-4">

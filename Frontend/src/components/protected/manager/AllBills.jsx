@@ -271,10 +271,18 @@ const ModalDesign = ({ record, setModeal, token }) => {
       amount: bill.amount,
     }));
 
-    pieChartData = billsData.items.map((bill) => ({
-      name: bill.name,
-      value: bill.amount,
+    const categoryMap = billsData.items.reduce((acc, bill) => {
+      const category =
+        bill.category?.name || bill.predicted_cat || "Uncategorized";
+      acc[category] = (acc[category] || 0) + bill.amount;
+      return acc;
+    }, {});
+
+    pieChartData = Object.entries(categoryMap).map(([category, value]) => ({
+      name: category,
+      value,
     }));
+
   }
 
   return (
