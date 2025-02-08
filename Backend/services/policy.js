@@ -25,17 +25,17 @@ const getCatagory = async (cat_id) => {
 
 const createPolicy = async (eventData) => {
 
-  const { event_id, event_name,cat_id,category, amount } = eventData;
+  const { ec_id, name,c_id,category, amount } = eventData;
 
   const { data, error } = await supabase
       .from("policies")
       .insert([
         {
-          ec_id: event_id,
-          c_id: cat_id,
+          ec_id: ec_id,
+          c_id: c_id,
           category: category, 
           data: amount ,
-          name: event_name
+          name: name
         },
       ])
       .select("ec_id, c_id, category, data")
@@ -49,11 +49,12 @@ const createPolicy = async (eventData) => {
 };
 
 const deletePolicyById = async (policy_id) => {
+console.log(policy_id);
 
   const { error } = await supabase
       .from("policies")
       .delete()
-      .eq("id", policy_id); // Match the policy by ID
+      .eq("p_id", policy_id); // Match the policy by ID
 
     if (error) throw error;
 

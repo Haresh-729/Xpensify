@@ -12,7 +12,8 @@ import {
 } from "@heroicons/react/24/solid";
 
 import Main from "../components/protected/user/Main";
-import policies from "../components/protected/finance/Events";
+import policies from "../components/protected/finance/Collections";
+import Collections from "../components/protected/finance/Collections";
 
 import MainManager from "../components/protected/finance/Main";
 import MainSA from "../components/protected/manager/Main";
@@ -56,6 +57,13 @@ const features = [
     allowedRoles: ["user"],
     logoUsed: UserIcon,
     page: FinanceProfile,
+  },
+  {
+    featureName: "Collections",
+    displayName: "Collections",
+    allowedRoles: ["finance", "manager"],
+    logoUsed: UserIcon,
+    page: Collections,
   },
 ];
 
