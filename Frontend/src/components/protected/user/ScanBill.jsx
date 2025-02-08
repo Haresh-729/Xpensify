@@ -9,6 +9,7 @@ function ScanBill() {
   const [file, setFile] = useState(null);
   const [data, setData] = useState(null);
   const [popupData, setPopupData] = useState(null);
+  const [filePreview, setFilePreview] = useState(null);
    const profileData = useSelector(selectAccount);
    const token = profileData?.token; 
    
@@ -16,6 +17,7 @@ function ScanBill() {
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
+    setFilePreview(URL.createObjectURL(selectedFile));
   };
 
   const handleScanBill = async () => {
@@ -87,6 +89,7 @@ function ScanBill() {
       console.log("Bill uploaded successfully:", response.data);
       setData(null);
       setFile(null);
+      setFilePreview(null);
     } catch (error) {
       console.error("Error uploading bill:", error);
     }
@@ -94,7 +97,7 @@ function ScanBill() {
 
   return (
     <div className="bg-white flex flex-col justify-center items-center gap-4 p-6 rounded-md">
-      <div className="w-1/2">
+      <div className="w-[70%]">
         <div className="relative cursor-pointer h-1/2 border-2 border-gray-400 p-8 rounded-md border-dashed flex flex-col justify-center items-center gap-3">
           <p className="p-4 bg-superiory-blue text-white rounded-full">
             <LuUpload size={30} />
@@ -118,94 +121,106 @@ function ScanBill() {
         >
           Scan Bill
         </button>
-        <div className="flex gap-8">
-          {data && (
-            <div className="flex-1 p-5 w-full rounded-sm shadow-md mt-5">
-              <div className="text-lg font-bold text-gray-700 mb-3">
-                <p>
-                  Vendor Name:{" "}
-                  <span className="font-medium capitalize">
-                    {data.vendor_name}
-                  </span>
-                </p>
-                <p>
-                  Date:{" "}
-                  <span className="font-medium capitalize">{data.date}</span>
-                </p>
-              </div>
 
-              <div className="bg-white rounded-md">
-                <h3 className="text-xl font-bold text-gray-800 mb-3">
-                  Items List
-                </h3>
-                <table className="w-full table-auto border-collapse border border-gray-300">
-                  <thead>
-                    <tr className="bg-blue-50 text-left">
-                      <th className="border border-gray-300 p-2">Item Name</th>
-                      <th className="border border-gray-300 p-2">Category</th>
-                      <th className="border border-gray-300 p-2">
-                        Predicted Category
-                      </th>
-                      <th className="border border-gray-300 p-2">Quantity</th>
-                      <th className="border border-gray-300 p-2">Price</th>
-                      <th className="border border-gray-300 p-2">Remark</th>
-                      <th className="border border-gray-300 p-2">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {data.structured_items.map((item, index) => (
-                      <tr key={index} className="hover:bg-gray-50 capitalize">
-                        <td className="border border-gray-300 p-2">
-                          {item.item_name}
-                        </td>
-                        <td className="border border-gray-300 p-2">
-                          {item.category}
-                        </td>
-                        <td className="border border-gray-300 p-2">
-                          {item.predicted_cat || "-"}
-                        </td>
-                        <td className="border border-gray-300 p-2">
-                          {item.quantity}
-                        </td>
-                        <td className="border border-gray-300 p-2">
-                          ${item.price}
-                        </td>
-                        <td className="border border-gray-300 p-2">
-                          {item?.remark || "-"}
-                        </td>
-                        <td className="border border-gray-300">
-                          <FaEdit
-                            className={`m-auto ${
-                              item.predicted_cat
-                                ? "cursor-pointer text-blue-500"
-                                : "text-gray-500 cursor-not-allowed"
-                            }`}
-                            onClick={() =>
-                              item.predicted_cat
-                                ? handleEditRemark(item, index)
-                                : null
-                            }
-                          />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+        <div className="flex gap-7">
+          <div>
+            {filePreview && (
+              <div>
+                <img src={filePreview} className="w-[350px] p-5 mt-5"></img>
               </div>
-
-              <div className="flex justify-between mt-4 ">
-                <div className="text-xl font-bold text-green-600">
-                  <p>Final Amount: ${data.final_amount}</p>
+            )}
+          </div>
+          <div className="flex gap-8">
+            {data && (
+              <div className="flex-1 p-5 w-full rounded-sm shadow-md mt-5">
+                <div className="text-lg font-bold text-gray-700 mb-3">
+                  <p>
+                    Vendor Name:{" "}
+                    <span className="font-medium capitalize">
+                      {data.vendor_name}
+                    </span>
+                  </p>
+                  <p>
+                    Date:{" "}
+                    <span className="font-medium capitalize">{data.date}</span>
+                  </p>
                 </div>
-                <button
-                  onClick={handleSubmit}
-                  className="text-white bg-green-600 px-5 py-2 cursor-pointer rounded-full"
-                >
-                  Upload
-                </button>
+
+                <div className="bg-white rounded-md">
+                  <h3 className="text-xl font-bold text-gray-800 mb-3">
+                    Items List
+                  </h3>
+                  <table className="w-full table-auto border-collapse border border-gray-300">
+                    <thead>
+                      <tr className="bg-blue-50 text-left">
+                        <th className="border border-gray-300 p-2">
+                          Item Name
+                        </th>
+                        <th className="border border-gray-300 p-2">Category</th>
+                        <th className="border border-gray-300 p-2">
+                          Predicted Category
+                        </th>
+                        <th className="border border-gray-300 p-2">Quantity</th>
+                        <th className="border border-gray-300 p-2">Price</th>
+                        <th className="border border-gray-300 p-2">Remark</th>
+                        <th className="border border-gray-300 p-2">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {data.structured_items.map((item, index) => (
+                        <tr key={index} className="hover:bg-gray-50 capitalize">
+                          <td className="border border-gray-300 p-2">
+                            {item.item_name}
+                          </td>
+                          <td className="border border-gray-300 p-2">
+                            {item.category}
+                          </td>
+                          <td className="border border-gray-300 p-2">
+                            {item.predicted_cat || "-"}
+                          </td>
+                          <td className="border border-gray-300 p-2">
+                            {item.quantity}
+                          </td>
+                          <td className="border border-gray-300 p-2">
+                            ${item.price}
+                          </td>
+                          <td className="border border-gray-300 p-2">
+                            {item?.remark || "-"}
+                          </td>
+                          <td className="border border-gray-300">
+                            <FaEdit
+                              className={`m-auto ${
+                                item.predicted_cat
+                                  ? "cursor-pointer text-blue-500"
+                                  : "text-gray-500 cursor-not-allowed"
+                              }`}
+                              onClick={() =>
+                                item.predicted_cat
+                                  ? handleEditRemark(item, index)
+                                  : null
+                              }
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="flex justify-between mt-4 ">
+                  <div className="text-xl font-bold text-green-600">
+                    <p>Final Amount: ${data.final_amount}</p>
+                  </div>
+                  <button
+                    onClick={handleSubmit}
+                    className="text-white bg-green-600 px-5 py-2 cursor-pointer rounded-full"
+                  >
+                    Upload
+                  </button>
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
 

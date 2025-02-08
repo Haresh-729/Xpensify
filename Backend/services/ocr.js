@@ -45,7 +45,7 @@ const uploadBills = async (id,req) => {
   for (const item of items) {
     let categoryId = null;
 
-    if (item.category) {
+    if (item.category != 'N/A') {
       const { data: categoryData, error: categoryError } = await supabase
         .from("categories")
         .select("c_id")
@@ -58,6 +58,8 @@ const uploadBills = async (id,req) => {
         categoryId = categoryData?.c_id;
       }
     }
+    console.log(item.category);
+    
 
     // Push the item with the resolved category ID
     billItems.push({
@@ -65,11 +67,11 @@ const uploadBills = async (id,req) => {
       c_id: categoryId,
       qty: item.quantity,
       rate: item.price,
-      unit_id: null, // Static or pre-defined value as per your requirement
+      unit_id: 1, // Static or pre-defined value as per your requirement
       b_id: billId,
       reason: item.remark || null,
       is_cat_gen: !!item.predicted_cat,
-      predicted_cat: item.predicted_cat,
+      predicted_cat: item.predicted_cat || null,
       created_at: new Date(),
     });
   }
