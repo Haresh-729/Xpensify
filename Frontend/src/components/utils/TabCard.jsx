@@ -122,7 +122,7 @@ const TabCard = ({ tabs, activeTab, onTabChange, content, onPreview }) => {
 
   const contentForTab = content.reduce((acc, tabData) => {
     const { tab, isEdit, sections, buttons } = tabData;
-    acc[tab] = isEdit === 1 ? renderSections(sections, buttons) : null;
+    acc[tab] = isEdit === 1 ? renderSections(sections, buttons) : tabData.displayContent;
     return acc;
   }, {});
 

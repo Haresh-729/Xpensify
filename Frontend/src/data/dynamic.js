@@ -12,6 +12,8 @@ import {
 } from "@heroicons/react/24/solid";
 
 import Main from "../components/protected/user/Main";
+import policies from "../components/protected/finance/Events";
+
 import MainManager from "../components/protected/finance/Main";
 import MainSA from "../components/protected/manager/Main";
 import UserProfile from "../components/protected/user/Profile";
@@ -30,7 +32,7 @@ const features = [
     displayName: "Home",
     allowedRoles: ["finance"],
     logoUsed: UserIcon,
-    page: MainManager,
+    page: policies,
   },
   {
     featureName: "Main",
@@ -44,14 +46,14 @@ const features = [
   {
     featureName: "Profile",
     displayName: "Profile",
-    allowedRoles: ["user"],
+    allowedRoles: ["user", "finance"],
     logoUsed: UserIcon,
     page: UserProfile,
   },
   {
     featureName: "Profile",
     displayName: "Profile",
-    allowedRoles: ["finance"],
+    allowedRoles: ["user"],
     logoUsed: UserIcon,
     page: FinanceProfile,
   },

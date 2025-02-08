@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { getDeteiledProfile } from "../../../services/repository/profileRepo";
 import { getAfterFetchEmpty } from '../../../app/ProfileSlice';
 import DynamicCard from "../../utils/TabCard";
+import EventsGrid from '../finance/Events';
 
 const tabs = ["Display Profile","Add Profile"];
 
@@ -37,7 +38,7 @@ const Profile = () => {
           isEdit: 0,
           sections: [],
           buttons: [],
-          displayContent: displayContent
+          displayContent: EventsGrid
         },
         {
           tab: "Add Profile",

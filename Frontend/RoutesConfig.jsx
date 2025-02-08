@@ -3,6 +3,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import {  useSelector } from 'react-redux';
 
 import { Error, Dashboard, Login, Landing, Register } from './src/components';
+import  PolicyManager  from './src/components/protected/finance/PolicyManager';
 import { isUserLoggedIn } from './src/app/DashboardSlice';
 import { VerifyEmail } from './src/components';
 import { Navbar } from './src/components';
@@ -13,6 +14,7 @@ import ScanBill from './src/components/protected/user/ScanBill';
 const RoutesConfig = () => {
   const isLoggedIn = useSelector(isUserLoggedIn);
   return (
+
     <Routes>
       <Route
         path="/"
