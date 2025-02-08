@@ -11,18 +11,20 @@ import {
   GlobeEuropeAfricaIcon,
 } from "@heroicons/react/24/solid";
 
-import Main from "../components/protected/user/Main";
-import policies from "../components/protected/finance/Events";
 
-import MainManager from "../components/protected/finance/Main";
-import MainSA from "../components/protected/manager/Main";
-import Report from "../components/protected/manager/AllBills";
-import Approval from "../components/protected/manager/Approval";
+import MainUser from "../components/protected/user/Main";
+import MainFinance from "../components/protected/finance/Main";
+import MainManager from "../components/protected/manager/Main";
 
+import ScanBill from "../components/protected/all/ScanBill";
+import Reports from "../components/protected/all/Reports";
+import Collections from "../components/protected/all/Collections";
 
 import UserProfile from "../components/protected/user/Profile";
 import FinanceProfile from "../components/protected/finance/Profile";
-
+import ManagerProfile from "../components/protected/manager/Profile";
+import Report from "../components/protected/manager/AllBills";
+import Approval from "../components/protected/manager/Approval";
 //userROles = "manager", "finance", "user"
 const features = [
   {
@@ -30,21 +32,21 @@ const features = [
     displayName: "Home",
     allowedRoles: ["user"],
     logoUsed: HomeIcon,
-    page: Main,
+    page: MainUser,
   },
   {
     featureName: "Main",
     displayName: "Home",
     allowedRoles: ["finance"],
     logoUsed: UserIcon,
-    page: policies,
+    page: MainFinance,
   },
   {
     featureName: "Main",
     displayName: "Home",
     allowedRoles: ["manager"],
     logoUsed: UserIcon,
-    page: MainSA,
+    page: MainManager,
   },
   {
     featureName: "Report",
@@ -63,20 +65,55 @@ const features = [
 
 
 
-  //Profile Page Should be last...
+  // following can be assigned to multiple users 
+
+
+  {
+    featureName: "Scan",
+    displayName: "Create Expense",
+    allowedRoles: ["user", "finance", "manager"],
+    logoUsed: UserIcon,
+    page: ScanBill,
+  },
+  {
+    featureName: "Report",
+    displayName: "Reports",
+    allowedRoles: ["finance", "manager"],
+    logoUsed: UserIcon,
+    page: Reports,
+  },
+  {
+    featureName: "Collections",
+    displayName: "Collections",
+    allowedRoles: ["finance", "manager"],
+    logoUsed: UserIcon,
+    page: Collections,
+  },
+
+
+
+
+  //Profile Page Should be last and can be assigned to only one role per feature...
   {
     featureName: "Profile",
     displayName: "Profile",
-    allowedRoles: ["user", "finance"],
+    allowedRoles: ["user"],
     logoUsed: UserIcon,
     page: UserProfile,
   },
   {
     featureName: "Profile",
     displayName: "Profile",
-    allowedRoles: ["user"],
+    allowedRoles: ["finance"],
     logoUsed: UserIcon,
     page: FinanceProfile,
+  },
+  {
+    featureName: "Profile",
+    displayName: "Profile",
+    allowedRoles: ["manager"],
+    logoUsed: UserIcon,
+    page: ManagerProfile,
   },
 ];
 

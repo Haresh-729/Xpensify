@@ -9,6 +9,15 @@ const listBills = async (req, res) => {
     res.status(400).json({ success: false, message: error.message });
   }
 };
+const listUserBils = async (req, res) => {
+  try {
+    const { id } = req.user;
+    const data = await reportService.listUserBills(id, req);
+    res.status(200).json({ success: true, data });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
 
 const getBillDetails = async (req, res) => {
   try {
@@ -36,5 +45,6 @@ const billApproval = async (req, res) => {
 module.exports = {
   listBills,
   getBillDetails,
-  billApproval
+  billApproval,
+  listUserBils,
 };

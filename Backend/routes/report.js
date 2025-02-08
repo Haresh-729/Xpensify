@@ -1,5 +1,5 @@
 const express = require("express");
-const { listBills, getBillDetails ,billApproval} = require("../controllers/report");
+const { listBills, getBillDetails, listUserBils, billApproval } = require("../controllers/report");
 const authMiddleware = require("../middlewares/auth");
 
 const router = express.Router();
@@ -9,5 +9,6 @@ router.get("/get-collection-bills", authMiddleware, listBills);
 router.get("/get-single-bill-details", authMiddleware, getBillDetails);
 router.put("/getBillApproval", authMiddleware, billApproval);
 
+router.get("/get-user-bills", authMiddleware, listUserBils);
 
 module.exports = router;

@@ -24,7 +24,7 @@ import { FaArrowLeft } from "react-icons/fa";
 const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff6f61", "#a28eec"];
 const COLORS2 = ["#FF5733", "#33FF57", "#3357FF", "#FF33A8", "#FFD433", "#33FFF5", "#8D33FF", "#FF3333", "#33FF85", "#FF8F33"];
 
-const AllBills = () => {
+const Reports = () => {
   const [billsData, setBillsData] = useState([]);
   const [loading, setLoading] = useState(false);
   const profileData = useSelector(selectAccount);
@@ -213,7 +213,7 @@ const AllBills = () => {
   );
 };
 
-export default AllBills;
+export default Reports;
 
 const ModalDesign = ({ record, setModeal, token }) => {
   const [billsData, setBillsData] = useState(null);
@@ -271,10 +271,18 @@ const ModalDesign = ({ record, setModeal, token }) => {
       amount: bill.amount,
     }));
 
-    pieChartData = billsData.items.map((bill) => ({
-      name: bill.name,
-      value: bill.amount,
+    const categoryMap = billsData.items.reduce((acc, bill) => {
+      const category =
+        bill.category?.name || bill.predicted_cat || "Uncategorized";
+      acc[category] = (acc[category] || 0) + bill.amount;
+      return acc;
+    }, {});
+
+    pieChartData = Object.entries(categoryMap).map(([category, value]) => ({
+      name: category,
+      value,
     }));
+
   }
 
   return (
