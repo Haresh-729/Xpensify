@@ -10,10 +10,10 @@ import {
   ChevronDoubleLeftIcon,
   GlobeEuropeAfricaIcon,
 } from "@heroicons/react/24/solid";
-import Main from "../components/protected/user/Main";
+import Main from "../components/protected/user/EmployeeForm";
 import MainCompany from "../components/protected/company/Main";
 import MainSA from "../components/protected/superAdmin/Main";
-import Orders from "../components/protected/all/Orders";
+import Orders from "../components/protected/all/EventForm";
 import UserProfile from "../components/protected/user/Profile";
 import CompanyProfile from "../components/protected/company/Profile";
 //userROles = "user", "company", "superAdmin"

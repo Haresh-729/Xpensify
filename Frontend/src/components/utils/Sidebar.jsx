@@ -105,8 +105,8 @@ import {
 } from "../../app/DashboardSlice.js";
 import { features } from "../../data/dynamic.js";
 
-import logo from "../../assets/regenest.png";
-import logo_text from "../../assets/ReGenest_text.png";
+import logo from "../../assets/logoimg.png";
+import logo_text from "../../assets/logotextwhite.png";
 
 const Sidebar = ({ isOpen }) => {
   const dispatch = useDispatch();
@@ -148,14 +148,14 @@ const Sidebar = ({ isOpen }) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-        <XMarkIcon
+        {/* <XMarkIcon
           className={`absolute right-0 w-6 h-6 cursor-pointer text-white hover:text-yellow ${isHovered ? "opacity-100" : "opacity-0 w-0"}`}
           onClick={onCartToggler}
-        />
+        /> */}
 
-        <div className="flex flex-row gap-2 items-center mb-[1rem] pt-3 px-2">
-          <img className={`w-[2rem] sm:w-[2.5rem]`} src={logo} alt="logo" onClick={() => {onMenuToggle()}}/>
-          <img className={`h-[1.8rem] ${isHovered ? "opacity-100" : "opacity-0 w-0"}`} src={logo_text} alt="logo"/>
+        <div className="flex flex-row gap-2 items-center mb-[1rem] pt-4 px-2">
+          <img className={`w-[3rem] sm:w-[2.5rem] pl-2`} src={logo} alt="logo" onClick={() => {onMenuToggle()}}/>
+          <img className={`h-[2rem]  ${isHovered ? "opacity-100" : "opacity-0 w-0"}`} src={logo_text} alt="logo"/>
         </div>
       <div className="flex flex-col gap-2 px-2">
         {features.map((item, index) => 
