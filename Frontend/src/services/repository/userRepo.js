@@ -5,8 +5,10 @@
 import {toast} from 'react-hot-toast';
 import { apiConnector } from '../Connector';
 import { setAccount, setAccountAfterRegister, setDFeature } from '../../app/DashboardSlice';
-import { authEndpoints } from '../Apis';
+import { authEndpoints, userEndPoints } from '../Apis';
+import { setUsersByRole } from '../../app/ProfileSlice';
 const {LOGIN_API, REGISTER, VALIDATE_GMAIL} = authEndpoints;
+const {GET_USER_BY_ROLES} = userEndPoints;
 
 export function login(email_id, password, navigate){
     return async(dispatch) => {
@@ -87,5 +89,29 @@ export function register(name, email_id,role_id, password, mobile, navigate){
             toast.error(error.response?.data?.message);
         }
         toast.dismiss(loadingToast);
+    }
+}
+export function getUsersByRoles(role, navigate){
+    return async(dispatch) => {
+        // const loadingToast = toast.loading("Registering you...");
+        try{
+            const response = await apiConnector("GET", `${GET_USER_BY_ROLES}${role}`, {role});
+            console.log("USERS BY ROLE API response : ", response.data.data.usersData);
+            if(response.data.success){
+                toast.success("get users By role Successful..");
+                // const options = usersData?.map((user) => ({
+                //     val: user.u_id,
+                //     display: user.name,
+                //   }));
+                dispatch(setUsersByRole(response.data.data.usersData))
+            }else{
+                throw new Error(response.data.message);
+            }
+        }
+        catch(error){
+            console.log("get users By role Error....", error);
+            toast.error(error.response?.data?.message);
+        }
+        // toast.dismiss(loadingToast);
     }
 }

@@ -7,6 +7,7 @@ import  PolicyManager  from './src/components/protected/finance/PolicyManager';
 import { isUserLoggedIn } from './src/app/DashboardSlice';
 import { VerifyEmail } from './src/components';
 import { Navbar } from './src/components';
+import CreateEvents from './src/components/protected/finance/CreateEvents';
 import ScanBill from './src/components/protected/user/ScanBill';
 // import AddHospital from './src/components/protected/admin/AddHospital';
 
@@ -14,27 +15,21 @@ import ScanBill from './src/components/protected/user/ScanBill';
 const RoutesConfig = () => {
   const isLoggedIn = useSelector(isUserLoggedIn);
   return (
-
-    <Routes>
-      <Route
-        path="/"
-        className="transition-all scrollbar-hide"
-        element={[<Landing />]}
-      />
-      <Route path="*" element={<Error />} />
-      {/* <Route path='/AddHospital' element={<AddHospital/>}/> */}
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={[<Register />]} />
-      <Route path="/verify_Email" element={<VerifyEmail />} />
-      {isLoggedIn && (
-        <Route
-          path="/Dashboard"
-          className="transition-all scrollbar-hide"
-          element={<Dashboard />}
-        />
-      )}
-      <Route path="/scan-bill" element={<ScanBill />} />
-    </Routes>
+        <Routes>
+          <Route path="/" className="transition-all scrollbar-hide" element={[<Landing/>]} />
+          <Route path='*' element={<Error/>}/>
+          {/* <Route path='/AddHospital' element={<AddHospital/>}/> */}
+          <Route path='/login' element={<Login/>}/>
+          <Route path='/register' element={[<Register/>]}/>
+          <Route path='/verify_Email' element={<VerifyEmail/>}/>
+          {
+            isLoggedIn && (
+              <Route path='/Dashboard' className="transition-all scrollbar-hide" element={<Dashboard/>}/>
+            )
+          }
+          <Route path='/create_events' element={<CreateEvents/>}/>
+          <Route path="/scan-bill" element={<ScanBill />} />
+        </Routes>
   );
 }
 

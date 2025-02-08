@@ -3,7 +3,7 @@ import DynamicCard from "../../utils/TabCard";
 import { CalendarDaysIcon, ChevronDownIcon } from "@heroicons/react/24/solid";
 const tabs = ["Add Hospital", "Create Admin"];
 
-const AddEvents = () => {
+const AddHospital = () => {
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const formData = [
     {

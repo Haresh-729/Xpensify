@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const TabCard = ({ tabs, activeTab, onTabChange, content, onPreview }) => {
+  console.log(content)
   const [formDataState, setFormDataState] = useState(
     content.reduce((acc, curr) => {
       if (curr.isEdit === 1) {  // Use strict equality check
@@ -92,7 +93,7 @@ const TabCard = ({ tabs, activeTab, onTabChange, content, onPreview }) => {
                           className="w-full border rounded-lg p-3 bg-light-gray text-superiory-blue"
                         >
                           {options.map((option, optionIndex) => (
-                            <option key={optionIndex}>{option}</option>
+                            <option value={option.val} key={optionIndex}>{option.display}</option>
                           ))}
                         </select>
                       )}
