@@ -16,4 +16,4 @@ router.get('/event/:event_id', authMiddleware, getEventPolicies);  // Get event 
 router.delete('/policy/:policy_id', authMiddleware, deletePolicyById);  // Delete policy
 router.get('/categories', authMiddleware, getCatagory);  // Get categories
 
-module.exports = router;
+module.exports = router;    

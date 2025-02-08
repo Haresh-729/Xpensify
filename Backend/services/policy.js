@@ -78,7 +78,7 @@ const  getEventPoliciesFormatted = async () => {
       if (!event_policies[eventName]) {
         event_policies[eventName] = {
           allowed_categories: [],
-          category_limits: {},
+          category_limits: {},  
           required_fields: ["reason"], // Default required field
         };
       }
