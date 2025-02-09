@@ -5,9 +5,12 @@ import { useSelector } from "react-redux";
 import { selectAccount } from "../../../app/DashboardSlice";
 import moment from "moment";
 import { Spin } from "antd";
+import FraudReport from "../all/FraudReport";
+
 
 const Collections = () => {
   const [isPolicyModalOpen, setIsPolicyModalOpen] = useState(false);
+  const [ShowReport, setShowReport] = useState(false);
   const [isNewPolicyModalOpen, setIsNewPolicyModalOpen] = useState(false);
   const [selectedEventId, setSelectedEventId] = useState(null);
   const [events, setEvents] = useState(null);
@@ -81,6 +84,29 @@ const Collections = () => {
     }
     setSelectedEventId(eventId);
     setIsPolicyModalOpen(true);
+  };
+
+  const handleShowReport = async (eventId) => {
+    setLoading(true);
+    // e.preventDefault();
+    //console.error("Error fetching");
+    // try {
+    //   const response = await axios.get(
+    //     "http://localhost:3000/api/policy/event/" + eventId,
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     }
+    //   );
+    //   setPolicies(response.data.data);
+    // } catch (error) {
+    //   console.error("Error fetching bills:", error);
+    // } finally {
+    //   setLoading(false);
+    // }
+    setSelectedEventId(eventId);
+    setShowReport(true);
   };
 
   const handleSubmitPolicy = async (e) => {
@@ -158,21 +184,17 @@ const Collections = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 w-full p-6">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800">Events</h1>
-          <div className="space-x-4">
-            <button className="bg-dark-blue text-white text-sm px-4 py-2 rounded-md hover:bg-blue-900">
-              Create Event
-            </button>
-          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {events &&
             events.map((event) => (
               <div
+                //onClick={() => handleShowReport(event.id)}
                 key={event.id}
                 className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
               >
@@ -381,7 +403,10 @@ const Collections = () => {
         </div>
       )}
 
-      {/* New Policy Modal */}
+      {/* New Policy Modal
+      {ShowReport && (
+        <FraudReport/>
+      )} */}
     </div>
   );
 };

@@ -29,8 +29,22 @@ const getBillDetails = async (req, res) => {
   }
 };
 
+const billApproval = async (req, res) => {
+  try {
+  
+    const BData = req.body;
+    console.log("contr", BData);
+
+    const data = await reportService.billApproval(BData);
+    res.status(200).json({ success: true, data });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   listBills,
   getBillDetails,
+  billApproval,
   listUserBils,
 };

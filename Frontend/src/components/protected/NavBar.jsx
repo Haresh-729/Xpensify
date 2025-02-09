@@ -58,8 +58,8 @@ function NavBar() {
         </div>
         <div className="flex flex-row items-center justify-center gap-3">
         <div className="flex flex-row w-[100%] place-content-end items-center ">
-          <div className="flex flex-row w-auto mx-[.6rem]  ">
-            <div className="flex items-center w-auto py-1 px-4 shadow-2xl rounded-2xl border-1 border-gray-400">
+          <div className="flex flex-row w-auto mx-[.6rem] ">
+            <div className="flex items-center w-auto py-1 px-2 rounded-3xl border-2 border-gray-200">
               <img
                 className="w-[2rem] rounded-"
                 src={acc.avatar ? acc.avatar : profile}
