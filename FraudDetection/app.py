@@ -10,103 +10,12 @@ from sklearn.preprocessing import StandardScaler
 import re
 import pdfplumber
 import pandas as pd
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+CORS(app, support_credentials=True)
 
-GST_STATE_CODES = {
-    "24": "Gujarat",
-    "29": "Karnataka",
-    "23": "Madhya Pradesh",
-    "21": "Odisha",
-    "04": "Chandigarh (UT)",
-    "03": "Punjab",
-    "33": "Tamil Nadu",
-    "34": "Puducherry",
-    "35": "Andaman & Nicobar (UT)",
-    "07": "Delhi (UT)",
-    "18": "Assam",
-    "13": "Nagaland",
-    "16": "Tripura",
-    "37": "Andhra Pradesh",
-    "36": "Telangana",
-    "08": "Rajasthan",
-    "32": "Kerala",
-    "09": "Uttar Pradesh",
-    "05": "Uttarakhand",
-    "27": "Maharashtra",
-    "30": "Goa",
-    "06": "Haryana",
-    "02": "Himachal Pradesh",
-    "10": "Bihar",
-    "20": "Jharkhand",
-    "19": "West Bengal",
-    "22": "Chhattisgarh"
-}
 
-dummy_file = "dummy_fraud_data.csv"
-RETRAIN_THRESHOLD = 1
-
-# Create dummy data if file doesn't exist.
-if not os.path.exists(dummy_file):
-    dummy_data = {
-        "date": [
-            "2025-01-10",
-            "2025-01-11",
-            "2025-01-12",
-            "2025-01-13",
-            "2025-01-14"
-        ],
-        "event": [
-            "Business Trip US",
-            "Business Trip US",
-            "Tech Conference",
-            "Client Meeting",
-            "Business Trip US"
-        ],
-        "category": [
-            "Travel",
-            "Food",
-            "Travel",
-            "Food",
-            "Accommodation"
-        ],
-        "amount": [
-            45000.00,
-            3000.00,
-            38000.00,
-            2500.00,
-            9500.00
-        ],
-        "reason": [
-            "Flight ticket",
-            "Lunch with clients",
-            "Cab fare",
-            "Dinner with client",
-            "Hotel stay"
-        ],
-        "gst_no": [
-            "07XYZAB2345K2L6",
-            "27ABCDE1234F1Z5",
-            "27ABCDE1234F1Z5",
-            "07XYZAB2345K2L6",
-            "07XYZAB2345K2L6"
-        ],
-        "fraud_remark": [
-            [],[],[],[],[]
-        ]
-    }
-    df_dummy = pd.DataFrame(dummy_data)
-    df_dummy["fraud"] = "No"  # Initially mark all as non-fraudulent.
-    # Add a placeholder for scaled amounts.
-    df_dummy["amount_scaled"] = 0.0
-    df_dummy.to_csv(dummy_file, index=False)
-else:
-    df_dummy = pd.read_csv(dummy_file)
-
-# Use the dummy file as our dataset for fraud detection.
-bills = df_dummy.copy()
-print("Loaded dummy data:")
-print(bills)
 
 def extract_state_codes(pdf_path):
     state_codes = {}
@@ -128,6 +37,35 @@ pdf_path = "GSTno_reg_wise_250717.pdf"
 STATE_CODES = extract_state_codes(pdf_path)
 
 def is_valid_gst(gst_no):
+    GST_STATE_CODES = {
+        "24": "Gujarat",
+        "29": "Karnataka",
+        "23": "Madhya Pradesh",
+        "21": "Odisha",
+        "04": "Chandigarh (UT)",
+        "03": "Punjab",
+        "33": "Tamil Nadu",
+        "34": "Puducherry",
+        "35": "Andaman & Nicobar (UT)",
+        "07": "Delhi (UT)",
+        "18": "Assam",
+        "13": "Nagaland",
+        "16": "Tripura",
+        "37": "Andhra Pradesh",
+        "36": "Telangana",
+        "08": "Rajasthan",
+        "32": "Kerala",
+        "09": "Uttar Pradesh",
+        "05": "Uttarakhand",
+        "27": "Maharashtra",
+        "30": "Goa",
+        "06": "Haryana",
+        "02": "Himachal Pradesh",
+        "10": "Bihar",
+        "20": "Jharkhand",
+        "19": "West Bengal",
+        "22": "Chhattisgarh"
+    }
     """Validate GSTIN using regex and state codes."""
     gst_pattern = r"^(\d{2})([A-Z]{5}\d{4}[A-Z]{1})(\d{1}[A-Z]{1}[A-Z\d]{1})$"
     
@@ -147,6 +85,7 @@ def is_valid_gst(gst_no):
         return False, "Invalid PAN structure in GST."
 
     return True, "GST is valid."
+
 
 # -----------------------------
 # Duplicate Bill Detection Function
@@ -176,6 +115,10 @@ def check_anomaly_local(event, category, amount):
     # if len(subset) < 5:
     #     print("Skipping anomaly detection for event/category due to insufficient data.")
     #     return False, ""
+
+    if subset.empty:
+        print(f"⚠️ No historical data for event: {event}, category: {category}. Skipping anomaly detection.")
+        return False, "No historical data available for anomaly detection."
     
     # Scale the amounts in this subset.
     scaler_local = StandardScaler()
@@ -197,7 +140,8 @@ def check_anomaly_local(event, category, amount):
     
     if min_distance_new > threshold:
         return True, "Spending anomaly detected (amount deviation exceeds threshold)."
-    return False, ""
+    
+    return False, "✅ Within normal spending pattern."
 
 def check_personal_use(amount, reason):
     """
@@ -258,8 +202,73 @@ def check_historical_fraud(event, category, amount):
 
 
 @app.route('/detect', methods=['POST'])
+@cross_origin(supports_credentials=True)
 def detect_fraud_api():
     global bills
+    dummy_file = "dummy_fraud_data.csv"
+    RETRAIN_THRESHOLD = 1
+
+    # Create dummy data if file doesn't exist.
+    if not os.path.exists(dummy_file):
+        dummy_data = {
+            "date": [
+            "2025-01-10",
+            "2025-01-11",
+            "2025-01-12",
+            "2025-01-13",
+            "2025-01-14"
+        ],
+        "event": [
+            "Business Trip US",
+            "Business Trip US",
+            "Tech Conference",
+            "Client Meeting",
+            "Business Trip US"
+        ],
+        "category": [
+            "Travel",
+            "Food",
+            "Travel",
+            "Food",
+            "Accommodation"
+        ],
+        "amount": [
+            45000.00,
+            3000.00,
+            38000.00,
+            2500.00,
+            9500.00
+        ],
+        "reason": [
+            "Flight ticket",
+            "Lunch with clients",
+            "Cab fare",
+            "Dinner with client",
+            "Hotel stay"
+        ],
+        "gst_no": [
+            "07XYZAB2345K2L6",
+            "27ABCDE1234F1Z5",
+            "27ABCDE1234F1Z5",
+            "07XYZAB2345K2L6",
+            "07XYZAB2345K2L6"
+        ],
+        "fraud_remark": [
+            [],[],[],[],[]
+        ]
+    }
+        df_dummy = pd.DataFrame(dummy_data)
+        df_dummy["fraud"] = "No"  # Initially mark all as non-fraudulent.
+        # Add a placeholder for scaled amounts.
+        df_dummy["amount_scaled"] = 0.0
+        df_dummy.to_csv(dummy_file, index=False)
+    else:
+        df_dummy = pd.read_csv(dummy_file)
+
+    # Use the dummy file as our dataset for fraud detection.
+    bills = df_dummy.copy()
+    print("Loaded dummy data:")
+    print(bills)
     
     data = request.json
     event = data.get("event", "").strip()
@@ -354,79 +363,84 @@ def retrain_anomaly_model():
     joblib.dump(scaler_global, "scaler.pkl")
     print("✅ Global anomaly model retrained!")
 
-event_policies = {
-    "Business Trip US": {
-        "allowed_categories": ["Travel", "Food", "Accommodation"],
-        "category_limits": {"Travel": 50000, "Food": 5000, "Accommodation": 10000},
-        "required_fields": ["reason"]
-    },
-    "Tech Conference": {
-        "allowed_categories": ["Travel", "Accommodation", "Entertainment"],
-        "category_limits": {"Travel": 40000, "Accommodation": 8000, "Entertainment": 15000},
-        "required_fields": ["reason"]
-    },
-    "Client Meeting": {
-        "allowed_categories": ["Food", "Accommodation", "Gifts"],
-        "category_limits": {"Food": 3000, "Accommodation": 7000, "Gifts": 2000},
-        "required_fields": ["reason"]
-    }
-}
-
-def check_policy_compliance(event, category, amount, reason):
-    errors = []
-    # Check if the event exists
-    if event not in event_policies:
-        errors.append(f"Event '{event}' is not recognized.")
-        return errors  # No need to continue if event is not found
-    
-    policies = event_policies[event]
-    allowed_categories = policies.get("allowed_categories", [])
-    category_limits = policies.get("category_limits", {})
-    required_fields = policies.get("required_fields", [])
-    
-    # Check if the category is allowed
-    if category not in allowed_categories:
-        errors.append(f"Category '{category}' is not allowed for event '{event}'.")
-    
-    # Check if a spending limit is defined and if the amount exceeds it
-    if category in category_limits:
-        if amount > category_limits[category]:
-            errors.append(f"Amount ₹{amount} exceeds the limit for '{category}' (limit: ₹{category_limits[category]}).")
-    else:
-        errors.append(f"No spending limit defined for category '{category}' in event '{event}'.")
-    
-    # Check for missing justification if required
-    if "reason" in required_fields:
-        if not reason or not reason.strip():
-            errors.append("Justification is required but missing.")
-    
-    return errors
 
 @app.route('/policy', methods=['POST'])
+@cross_origin(supports_credentials=True)
 def policy_compliance():
     data = request.json
-    event = data.get("event", "")
-    category = data.get("category", "")
-    try:
-        amount = float(data.get("amount", 0))
-    except ValueError:
-        return jsonify({"error": "Amount must be a number."}), 400
-    reason = data.get("reason", "")
-    
-    violations = check_policy_compliance(event, category, amount, reason)
-    if violations:
-        status = "❌ POLICY VIOLATION"
-    else:
-        status = "✅ Compliant"
-    
-    return jsonify({
-        "event": event,
-        "category": category,
-        "amount": amount,
-        "reason": reason,
-        "violations": violations,
-        "status": status
-    })
+    print("Received Data:", data)
+
+    message = data.get("message", {})
+    policies = message.get("policies", {})  # Extract policies
+    bill_items = message.get("billItems", [])  # Extract bill items
+
+    compliance_results = {}
+
+    for bill in bill_items:
+        event = bill.get("event", "").strip()
+        category = bill.get("category", "").strip()
+        try:
+            amount = float(bill.get("amount", 0))
+        except ValueError:
+            return jsonify({"error": f"Amount must be a number for category {category}."}), 400
+        reason = bill.get("remarks", "")
+
+        # **Find the policy that matches the event dynamically**
+        event_policy = None
+        for policy_key, policy_data in policies.items():
+            if category in policy_data["allowed_categories"]:
+                event_policy = policy_data
+                break  # Stop once we find a matching policy
+
+        if event_policy is None:
+            compliance_results[event] = {
+                "status": "❌ No policy found for this event",
+                "category": category,
+                "amount": amount,
+                "reason": reason
+            }
+            continue
+
+        # Extract limits & allowed categories
+        allowed_categories = set(event_policy.get("allowed_categories", []))
+        category_limits = {cat: int(limit) for cat, limit in zip(allowed_categories, event_policy.get("category_limits", []))}
+
+        # ✅ Check if category is allowed
+        category_status = "✅ Allowed" if category in allowed_categories else "❌ Not Allowed"
+
+        # ✅ Sum previous amounts for same category (to check limit compliance)
+        total_category_amount = sum(
+            bill["amount"] for bill in bill_items if bill["category"] == category
+        ) + amount
+
+        # ✅ Check if amount exceeds category limit
+        if category in category_limits:
+            amount_status = (
+                "✅ Within Limit"
+                if total_category_amount <= category_limits[category]
+                else f"❌ Exceeds Limit (Total: ₹{total_category_amount}, Limit: ₹{category_limits[category]})"
+            )
+        else:
+            amount_status = "❌ No Spending Limit Defined"
+
+        # ✅ Check for required justification
+        justification_status = "✅ Provided" if reason else "❌ Missing"
+
+        # Store compliance results
+        if event not in compliance_results:
+            compliance_results[event] = []
+
+        compliance_results[event].append({
+            "category": category,
+            "amount": amount,
+            "reason": reason,
+            "category_status": category_status,
+            "amount_status": amount_status,
+            "justification_status": justification_status
+        })
+
+    return jsonify(compliance_results)
+
 
 
 
