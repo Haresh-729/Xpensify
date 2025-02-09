@@ -13,6 +13,7 @@ const uploadBills = async (id,req) => {
     verified_by,
     verified_at,
     ec_id,
+    gst_no
   } = req.body;
   
 
@@ -30,6 +31,7 @@ const uploadBills = async (id,req) => {
         verified_at: verified_at,
         created_at: new Date(),
         ec_id: ec_id,
+        gst_no,
       },
     ])
     .select();

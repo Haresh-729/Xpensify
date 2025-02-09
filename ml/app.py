@@ -86,6 +86,11 @@ def process_image():
     if vendor_name.lower().endswith("company"):
         vendor_name = vendor_name[:-len("company")].strip()
 
+    gst_pattern = r'\bgst(?:in)?[-:\s]*([\d\w]+)\b'
+    gst_match = re.search(gst_pattern, text)
+    gst_number = gst_match.group(1) if gst_match else "GST not found"
+
+
     # Extract date
     date_pattern = r'\b(?:\d{1,2}/\d{1,2}/\d{4})\b'
     date_match = re.search(date_pattern, text)
@@ -113,7 +118,7 @@ def process_image():
                 "item_name": item_name_snake,
                 "category": category,
                 "quantity": quantity,
-                "price": price
+                "price": price,
             })
 
     # Extract final amount
@@ -125,7 +130,8 @@ def process_image():
         "vendor_name": vendor_name,
         "date": date,
         "final_amount": final_amount,
-        "structured_items": structured_items
+        "structured_items": structured_items,
+        "gst_no":gst_number
     }
 
     return jsonify(result)
