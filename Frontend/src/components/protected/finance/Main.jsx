@@ -1,11 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import {
+  BarChart,
+  Bar,
+  PieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  Legend,
+} from "recharts";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { selectAccount } from "../../../app/DashboardSlice";
 import { Spin } from "antd";
 import { Table, Tag } from "antd";
-import moment from 'moment'; // Import moment for date formatting
+import moment from "moment"; // Import moment for date formatting
 
 const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -21,11 +32,14 @@ const Main = () => {
   const fetchEvents = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:3000/api/collection/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        "http://localhost:3000/api/collection/",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setEvents(response.data.data.data); // Handle potential undefined data
     } catch (error) {
       console.error("Error fetching events:", error); // More specific error message
@@ -37,11 +51,14 @@ const Main = () => {
   const fetchBills = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:3000/api/report/getlistbils", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        "http://localhost:3000/api/report/getlistbils",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       const processedData = response.data.data.map((bill) => ({
         ...bill,
         statusText: getStatusText(bill.status),
@@ -61,17 +78,18 @@ const Main = () => {
     }
   }, [token]);
 
-  const eventCategories = events.reduce((acc, event) => { // No need for conditional check here since events is initialized as []
+  const eventCategories = events.reduce((acc, event) => {
+    // No need for conditional check here since events is initialized as []
     acc[event.category] = (acc[event.category] || 0) + 1;
     return acc;
   }, {});
 
-  const pieData = Object.entries(eventCategories).map(([category, count]) => ({
+  const pieData1 = Object.entries(eventCategories).map(([category, count]) => ({
     name: category,
     value: count,
   }));
 
-  const barData = events.map(event => ({ 
+  const barData1 = events.map((event) => ({
     name: event.name,
     budget: parseInt(event.total_exp, 10),
   }));
@@ -94,7 +112,9 @@ const Main = () => {
       title: "Bill ID",
       dataIndex: "b_id",
       key: "b_id",
-      render: (text) => <span className="cursor-pointer text-blue-600">{text}</span>,
+      render: (text) => (
+        <span className="cursor-pointer text-blue-600">{text}</span>
+      ),
     },
     {
       title: "Vendor",
@@ -105,13 +125,13 @@ const Main = () => {
       title: "Date",
       dataIndex: "date",
       key: "date",
-      render: (date) => date ? moment(date).format("DD/MM/YYYY") : '-', // Handle missing dates
+      render: (date) => (date ? moment(date).format("DD/MM/YYYY") : "-"), // Handle missing dates
     },
     {
       title: "Final Amount",
       dataIndex: "final_amount",
       key: "final_amount",
-      render: (amount) => amount ? `₹ ${amount.toFixed(2)}` : '-', // Handle missing amounts
+      render: (amount) => (amount ? `₹ ${amount.toFixed(2)}` : "-"), // Handle missing amounts
     },
     {
       title: "Status",
@@ -127,8 +147,23 @@ const Main = () => {
       title: "Created At",
       dataIndex: "created_at",
       key: "created_at",
-      render: (text) => text ? moment(text).format("DD/MM/YYYY hh:mm A") : '-', // Handle missing timestamps
+      render: (text) =>
+        text ? moment(text).format("DD/MM/YYYY hh:mm A") : "-", // Handle missing timestamps
     },
+  ];
+
+  const pieData = [
+    { name: "Travel", value: 10 },
+    { name: "Food", value: 5 },
+    { name: "Office Supplies", value: 8 },
+    { name: "Miscellaneous", value: 6 },
+  ];
+
+  const barData = [
+    { name: "Event A", value: 12000 },
+    { name: "Event B", value: 9000 },
+    { name: "Event C", value: 1500 },
+    { name: "Event D", value: 600 },
   ];
 
   const onRowClick = (record) => {
@@ -145,49 +180,85 @@ const Main = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 p-6 w-full mx-[5rem]">
-    <h1 className="text-2xl font-bold text-gray-800 mb-6">Manager Dashboard</h1>
-
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <div className="bg-white p-6 rounded-lg shadow-lg">
-        <h2 className="text-lg font-bold text-gray-800 mb-4">Event Distribution</h2>
-        <ResponsiveContainer width="100%" height={300}>
-          <PieChart>
-            <Pie data={pieData} cx="50%" cy="50%" outerRadius={80} fill="#8884d8" dataKey="value">
-              {pieData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip />
-          </PieChart>
-        </ResponsiveContainer>
-      </div>
-
-      <div className="bg-white p-6 rounded-lg shadow-lg text-sm">
-        <h2 className="text-lg font-bold text-gray-800 mb-4">Budget Analysis</h2>
-        <div style={{ width: "100%", height: "300px" }}> {/* or height: 300 */}
-          <BarChart data={barData}> {/* Removed fixed width, uses container width */}
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Bar dataKey="budget" fill="#228B22" />
-          </BarChart>
+      <h1 className="text-2xl font-bold text-gray-800 mb-6">
+        Manager Dashboard
+      </h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="bg-white p-6 rounded-lg shadow-lg">
+          <h2 className="text-lg font-bold text-gray-800 mb-4">
+            Event Distribution
+          </h2>
+          <ResponsiveContainer width="100%" height={300}>
+            <PieChart>
+              <Pie
+                data={pieData}
+                cx="50%"
+                cy="50%"
+                outerRadius={120}
+                fill="#8884d8"
+                dataKey="value"
+              >
+                {pieData.map((entry, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+              <Tooltip />
+              <Legend />
+            </PieChart>
+          </ResponsiveContainer>
         </div>
-      </div>
-    </div> {/* Close the grid div here */}
 
-    <h3 className="text-xl font-bold pl-2 flex items-center gap-4 mt-10 mb-5">All Bills</h3> {/* Simplified heading */}
-    <Table
-      columns={columns}
-      dataSource={billsData.map((bill) => ({ ...bill, key: bill.b_id }))}
-      loading={loading}
-      bordered
-      pagination={{ pageSize: 10 }}
-      onRow={(record) => ({
-        onClick: () => onRowClick(record),
-      })}
-    />
-  </div>
-);
+        <div className="bg-white p-6 rounded-lg shadow-lg text-sm">
+          <h2 className="text-lg font-bold text-gray-800 mb-4">
+            Budget Analysis
+          </h2>
+          <div style={{ width: "100%", height: "300px" }}>
+            {" "}
+            {/* or height: 300 */}
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={barData}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={120}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {pieData.map((entry, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>{" "}
+      {/* Close the grid div here */}
+      <h3 className="text-xl font-bold pl-2 flex items-center gap-4 mt-10 mb-5">
+        All Bills
+      </h3>{" "}
+      {/* Simplified heading */}
+      <Table
+        columns={columns}
+        dataSource={billsData.map((bill) => ({ ...bill, key: bill.b_id }))}
+        loading={loading}
+        bordered
+        pagination={{ pageSize: 10 }}
+        onRow={(record) => ({
+          onClick: () => onRowClick(record),
+        })}
+      />
+    </div>
+  );
 };
 
 export default Main;

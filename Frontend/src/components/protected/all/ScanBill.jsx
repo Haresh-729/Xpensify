@@ -5,6 +5,7 @@ import axios from "axios";
 import { selectAccount } from "../../../app/DashboardSlice";
 import { useSelector } from "react-redux";
 import OCROld from "../../common/OCROld";
+import { Spin } from "antd";
 
 function ScanBill() {
   const [file, setFile] = useState(null);
@@ -14,6 +15,7 @@ function ScanBill() {
   const [collections, setCollections] = useState([]);
   const [selectedCollectionId, setSelectedCollectionId] = useState("");
   const [popup, setPopup] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const profileData = useSelector(selectAccount);
   const token = profileData?.token;  
@@ -26,6 +28,7 @@ function ScanBill() {
   };
 
   const handleScanBill = async () => {
+    setLoading(true);
     if (!file) {
       alert("Please select an image before scanning.");
       return;
@@ -45,7 +48,9 @@ function ScanBill() {
         }
       );
       setData(response.data);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error("Error scanning bill:", error.message);
     }
   };
@@ -177,7 +182,12 @@ function ScanBill() {
               </div>
             )}
           </div>
-          <div className="flex gap-8">
+          <div className="flex gap-8 w-full">
+            {loading && (
+              <div className="absolute bg-opacity inset-0 flex justify-center items-center z-50">
+                <Spin size="large"/>
+              </div>
+            )}
             {data && (
               <div className="flex-1 p-5 w-full rounded-sm shadow-md mt-5">
                 <div className="font-xm text-gray-700 mb-3">
