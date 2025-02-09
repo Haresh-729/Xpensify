@@ -23,6 +23,7 @@ import Collections from "../components/protected/all/Collections";
 import UserProfile from "../components/protected/user/Profile";
 import FinanceProfile from "../components/protected/finance/Profile";
 import ManagerProfile from "../components/protected/manager/Profile";
+import Chatbot from "../components/common/ChatBot";
 //userROles = "manager", "finance", "user"
 const features = [
   {
@@ -70,6 +71,13 @@ const features = [
     allowedRoles: ["finance", "manager"],
     logoUsed: UserIcon,
     page: Collections,
+  },
+  {
+    featureName: "ChatBot",
+    displayName: "ChatBot",
+    allowedRoles: ["finance", "manager","employee"],
+    logoUsed: UserIcon,
+    page: Chatbot,
   },
 
 

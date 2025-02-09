@@ -1,0 +1,7 @@
+date,event,category,amount,reason,gst_no,amount_scaled,fraud
+2025-01-10,Business Trip US,Travel,45000.0,Flight ticket,GST12345,1.3966589077126008,
+2025-01-11,Business Trip US,Food,3000.0,Lunch with clients,GST23456,-0.9127770814184714,
+2025-01-12,Tech Conference,Travel,38000.0,Cab fare,GST34567,1.0117529095240887,
+2025-01-13,Client Meeting,Food,2500.0,Dinner with client,GST45678,-0.9402703670033651,
+2025-01-14,Business Trip US,Accommodation,9500.0,Hotel stay,GST56789,-0.5553643688148531,
+2025-01-11,Business Trip US,Travel,46877.0,Flight ticket for business travel,GST12345,0.0,Yes
