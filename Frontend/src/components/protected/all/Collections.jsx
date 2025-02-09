@@ -402,7 +402,7 @@ const Collections = () => {
         )}
       </>}
 
-      {ShowReport && <FraudReport setShowReport={setShowReport}/>}
+      {ShowReport && <FraudReport setShowReport={setShowReport} id={selectedEventId}/>}
     </div>
   );
 };

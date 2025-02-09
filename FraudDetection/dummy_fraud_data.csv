@@ -9,3 +9,23 @@ date,event,category,amount,reason,gst_no,fraud_remark,fraud,amount_scaled
 2025-02-22,Client Meeting,Food,1100.0,Dinner with VIP clients,27AAACC1206D1ZG,[],No,-0.6567089798380548
 2025-02-22,Client Meeting,Food,110000.0,Dinner with VIP clients,27AAACC1206D1ZG,['Spending anomaly detected (amount deviation exceeds threshold).'],Yes,2.5108130238001216
 2025-02-22,Client Meeting,Food,1110.0,Dinner with VIP clients,27AAACC1206D1ZG,[],No,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
+,,,0.0,,,['Invalid GST format.'],Yes,0.0
