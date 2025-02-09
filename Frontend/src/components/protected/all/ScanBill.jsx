@@ -10,14 +10,14 @@ function ScanBill() {
   const [data, setData] = useState(null);
   const [popupData, setPopupData] = useState(null);
   const [filePreview, setFilePreview] = useState(null);
-   const profileData = useSelector(selectAccount);
-   const token = profileData?.token; 
-   
+  const profileData = useSelector(selectAccount);
+  const token = profileData?.token;
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
     setFile(selectedFile);
     setFilePreview(URL.createObjectURL(selectedFile));
+    setData(null);
   };
 
   const handleScanBill = async () => {
@@ -77,15 +77,15 @@ function ScanBill() {
     };
 
     try {
-     const response = await axios.post(
-       "http://localhost:3000/api/ocr/upload-bills",
-       billData,
-       {
-         headers: {
-           Authorization: `Bearer ${token}`,
-         },
-       }
-     );
+      const response = await axios.post(
+        "http://localhost:3000/api/ocr/upload-bills",
+        billData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log("Bill uploaded successfully:", response.data);
       setData(null);
       setFile(null);
@@ -96,8 +96,8 @@ function ScanBill() {
   };
 
   return (
-    <div className="bg-white flex flex-col justify-center items-center gap-4 p-6 rounded-md">
-      <div className="w-[70%]">
+    <div className="bg-white flex flex-col justify-center items-center gap-4 p-6 rounded-md w-full">
+      <div className="w-[50%]">
         <div className="relative cursor-pointer h-1/2 border-2 border-gray-400 p-8 rounded-md border-dashed flex flex-col justify-center items-center gap-3">
           <p className="p-4 bg-superiory-blue text-white rounded-full">
             <LuUpload size={30} />
@@ -122,9 +122,9 @@ function ScanBill() {
           Scan Bill
         </button>
 
-        <div className="flex gap-7">
+        <div className={`flex`}>
           <div>
-            {filePreview && (
+            {filePreview && !data && (
               <div>
                 <img src={filePreview} className="w-[350px] p-5 mt-5"></img>
               </div>
@@ -133,7 +133,7 @@ function ScanBill() {
           <div className="flex gap-8">
             {data && (
               <div className="flex-1 p-5 w-full rounded-sm shadow-md mt-5">
-                <div className="text-lg font-bold text-gray-700 mb-3">
+                <div className="font-xm text-gray-700 mb-3">
                   <p>
                     Vendor Name:{" "}
                     <span className="font-medium capitalize">
@@ -147,7 +147,7 @@ function ScanBill() {
                 </div>
 
                 <div className="bg-white rounded-md">
-                  <h3 className="text-xl font-bold text-gray-800 mb-3">
+                  <h3 className=" text-gray-800 mb-3">
                     Items List
                   </h3>
                   <table className="w-full table-auto border-collapse border border-gray-300">
