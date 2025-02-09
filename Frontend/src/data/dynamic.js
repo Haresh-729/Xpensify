@@ -30,6 +30,7 @@ import CollectionListForReports from "../components/protected/all/CollectionList
 import { Bot, CalendarRange, ClipboardList, House, IndianRupee, Plus, ReceiptIndianRupee } from "lucide-react";
 import CreateEvents from "../components/protected/finance/CreateEvents";
 import CollectionsBillList from "../components/protected/all/CollectionsBillList";
+import UserHome from "../components/protected/user/UserHome";
 //userROles = "manager", "finance", "employee"
 const features = [
   {
@@ -37,7 +38,7 @@ const features = [
     displayName: "Home",
     allowedRoles: ["employee"],
     logoUsed: House,
-    page: CollectionsBillList,
+    page: UserHome,
   },
   {
     featureName: "Main",
