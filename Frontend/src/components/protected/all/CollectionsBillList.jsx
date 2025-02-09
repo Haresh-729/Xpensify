@@ -59,11 +59,11 @@ const CollectionsBillList = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-gray-50 p-6 w-full">
       {!isBillsScreenOpen ? (
         <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center mb-6">
-            <h1 className="text-2xl font-bold text-gray-800">Events</h1>
+            <h1 className="text-2xl font-bold text-gray-800">{role === 'employee' ? "My Events" : "All Events"}</h1>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -106,9 +106,9 @@ const CollectionsBillList = () => {
                   <div className="bg-gray-50 p-4 flex justify-between items-center">
                     <button
                       onClick={() => setBillScreenOpen(event.ec_id)}
-                      className="text-white bg-gradient-to-r bg-[#5c8001] px-4 py-2 rounded-md text-sm font-semibold "
+                      className="text-white cursor-pointer bg-gradient-to-r bg-[#5c8001] px-4 py-2 rounded-md text-sm font-semibold "
                     >
-                      Show Bills
+                      Show {role === 'employee' ? "My" : "All"} Bills
                     </button>
                     <div className="flex space-x-4">
                       <button className="text-[#5c8001]">
@@ -237,7 +237,7 @@ const BillPage = ({ id, role, token, setBillScreenOpen }) => {
   ];
 
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center w-full">
       <div className="w-[70%] p-10 flex flex-col gap-4 bg-white  rounded-md">
         <p className="text-2xl font-bold pl-2 flex gap-2 items-center">
           <FaArrowLeft

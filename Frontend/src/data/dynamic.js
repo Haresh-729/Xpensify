@@ -27,7 +27,9 @@ import ManagerProfile from "../components/protected/manager/Profile";
 import Chatbot from "../components/common/ChatBot";
 //userROles = "manager", "finance", "user"
 import CollectionListForReports from "../components/protected/all/CollectionListForReports";
-import { Bot, CalendarRange, ClipboardList, House, IndianRupee, ReceiptIndianRupee } from "lucide-react";
+import { Bot, CalendarRange, ClipboardList, House, IndianRupee, Plus, ReceiptIndianRupee } from "lucide-react";
+import CreateEvents from "../components/protected/finance/CreateEvents";
+import CollectionsBillList from "../components/protected/all/CollectionsBillList";
 //userROles = "manager", "finance", "employee"
 const features = [
   {
@@ -35,7 +37,7 @@ const features = [
     displayName: "Home",
     allowedRoles: ["employee"],
     logoUsed: House,
-    page: MainUser,
+    page: CollectionsBillList,
   },
   {
     featureName: "Main",
@@ -69,6 +71,13 @@ const features = [
     page: CollectionListForReports,
   },
   {
+    featureName: "Create Events",
+    displayName: "Create Event",
+    allowedRoles: ["finance", "manager"],
+    logoUsed: Plus,
+    page: CreateEvents,
+  },
+  {
     featureName: "Collections",
     displayName: "Collections",
     allowedRoles: ["finance", "manager"],
@@ -76,9 +85,16 @@ const features = [
     page: Collections,
   },
   {
+    featureName: "All Bills",
+    displayName: "All Bills",
+    allowedRoles: ["finance", "manager"],
+    logoUsed: ClipboardList,
+    page: CollectionsBillList,
+  },
+  {
     featureName: "ChatBot",
     displayName: "ChatBot",
-    allowedRoles: ["finance", "manager","employee"],
+    allowedRoles: ["finance", "manager", "employee"],
     logoUsed: Bot,
     page: Chatbot,
   },

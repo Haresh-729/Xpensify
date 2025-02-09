@@ -20,32 +20,41 @@ export default function Chatbot() {
     };
 
     return (
-        <div className="flex flex-col items-center h-screen p-4 bg-gray-100">
-            <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-4 flex flex-col h-4/5 overflow-y-auto">
-                {messages.map((msg, index) => (
-                    <div
-                        key={index}
-                        className={`p-2 my-2 rounded-md w-fit max-w-xs ${msg.sender === "user" ? "bg-blue-500 text-white ml-auto" : "bg-gray-300 text-black"}`}
-                    >
-                        {msg.text}
-                    </div>
-                ))}
-            </div>
-            <div className="w-full max-w-lg mt-4 flex">
-                <input
-                    type="text"
-                    className="flex-1 p-2 border rounded-l-md"
-                    placeholder="Ask me anything..."
-                    value={input}
-                    onChange={(e) => setInput(e.target.value)}
-                />
-                <button
-                    onClick={sendMessage}
-                    className="bg-blue-500 text-white px-4 py-2 rounded-r-md"
-                >
-                    Send
-                </button>
-            </div>
+      <div className="w-full">
+        <div className="flex flex-col items-center h-[90vh] w-full p-4 bg-gradient-to-r from-blue-50 to-indigo-100">
+          {/* Chat Container */}
+          <div className="w-full max-w-lg bg-white shadow-xl rounded-2xl p-6 flex flex-col h-4/5 overflow-y-auto">
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={`p-3 my-3 rounded-xl text-sm w-fit max-w-sm ${
+                  msg.sender === "user"
+                    ? "bg-gradient-to-r from-blue-400 to-blue-600 text-white self-end"
+                    : "bg-gray-200 text-black"
+                }`}
+              >
+                {msg.text}
+              </div>
+            ))}
+          </div>
+
+          {/* Input and Send Button */}
+          <div className="w-full max-w-lg mt-4 flex">
+            <input
+              type="text"
+              className="flex-1 p-3 border rounded-l-full focus:outline-none shadow-sm"
+              placeholder="Ask me anything..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+            />
+            <button
+              onClick={sendMessage}
+              className="bg-gradient-to-r cursor-pointer from-blue-500 to-indigo-500 text-white px-5 py-2 rounded-r-full hover:bg-blue-600 shadow-md transition-all duration-300"
+            >
+              Send
+            </button>
+          </div>
         </div>
+      </div>
     );
 }
