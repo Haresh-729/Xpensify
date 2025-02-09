@@ -27,16 +27,12 @@ import ManagerProfile from "../components/protected/manager/Profile";
 import Chatbot from "../components/common/ChatBot";
 //userROles = "manager", "finance", "user"
 import CollectionListForReports from "../components/protected/all/CollectionListForReports";
-<<<<<<< HEAD
-import { Bot, CalendarRange, ClipboardList, House, IndianRupee, Plus, ReceiptIndianRupee } from "lucide-react";
+import { Bot, CalendarRange, ClipboardList, Gavel, House, IndianRupee, Plus, ReceiptIndianRupee } from "lucide-react";
 import CreateEvents from "../components/protected/finance/CreateEvents";
 import CollectionsBillList from "../components/protected/all/CollectionsBillList";
 import UserHome from "../components/protected/user/UserHome";
+import Approval from "../components/protected/manager/Approval";
 //userROles = "manager", "finance", "employee"
-=======
-
-// userRoles = "manager", "finance", "employee"
->>>>>>> 159d3f11f6934ba319408c51f240cd64311e48a6
 const features = [
   {
     featureName: "Main",
@@ -49,22 +45,14 @@ const features = [
     featureName: "Main",
     displayName: "Home",
     allowedRoles: ["finance"],
-<<<<<<< HEAD
     logoUsed: House,
-=======
-    logoUsed: HomeIcon,
->>>>>>> 159d3f11f6934ba319408c51f240cd64311e48a6
     page: MainFinance,
   },
   {
     featureName: "Main",
     displayName: "Home",
     allowedRoles: ["manager"],
-<<<<<<< HEAD
     logoUsed: House,
-=======
-    logoUsed: HomeIcon,
->>>>>>> 159d3f11f6934ba319408c51f240cd64311e48a6
     page: MainManager,
   },
 
@@ -73,22 +61,14 @@ const features = [
     featureName: "Scan",
     displayName: "Create Expense",
     allowedRoles: ["employee", "finance", "manager"],
-<<<<<<< HEAD
     logoUsed: IndianRupee,
-=======
-    logoUsed: CreditCardIcon,
->>>>>>> 159d3f11f6934ba319408c51f240cd64311e48a6
     page: ScanBill,
   },
   {
     featureName: "Report",
     displayName: "Reports",
     allowedRoles: ["finance", "manager"],
-<<<<<<< HEAD
     logoUsed: ClipboardList,
-=======
-    logoUsed: ChartBarIcon,
->>>>>>> 159d3f11f6934ba319408c51f240cd64311e48a6
     page: CollectionListForReports,
   },
   {
@@ -102,12 +82,15 @@ const features = [
     featureName: "Collections",
     displayName: "Collections",
     allowedRoles: ["finance", "manager"],
-<<<<<<< HEAD
     logoUsed: CalendarRange,
-=======
-    logoUsed: ClipboardDocumentListIcon,
->>>>>>> 159d3f11f6934ba319408c51f240cd64311e48a6
     page: Collections,
+  },
+  {
+    featureName: "Approvals",
+    displayName: "Approvals",
+    allowedRoles: ["manager"],
+    logoUsed: Gavel,
+    page: Approval,
   },
   {
     featureName: "All Bills",
