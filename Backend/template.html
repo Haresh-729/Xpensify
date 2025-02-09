@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collections Report</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        h1 { text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f4f4f4; }
+        .participants { font-size: 12px; color: #555; }
+        .chart-container { width: 80%; margin: 20px auto; }
+    </style>
+</head>
+<body>
+    <h1>Collections Report</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Created By</th>
+                <th>Created At</th>
+                <th>Status</th>
+                <th>Participants</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{tableRows}}
+        </tbody>
+    </table>
+    <div id="statusPieChart"></div>
+    <div id="vendorBarChart"></div>
+    <div id="itemBarChart"></div>
+    <div id="itemLineChart"></div>
+    <div id="categoryPieChart"></div>
+
+    <!-- Chart Container -->
+    <div class="chart-container">
+        <canvas id="participantsChart"></canvas>
+    </div>
+
+    <script>
+        // Data for Chart
+        const statusData = [
+      { name: "Paid", value: 30 },
+      { name: "Pending", value: 50 },
+      { name: "Overdue", value: 20 }
+    ];
+
+    const vendorData = [
+      { vendor: "Vendor A", amount: 5000 },
+      { vendor: "Vendor B", amount: 7000 },
+      { vendor: "Vendor C", amount: 3000 },
+      { vendor: "Vendor D", amount: 9000 }
+    ];
+
+    const barChartData = [
+      { item: "Item X", quantity: 20 },
+      { item: "Item Y", quantity: 35 },
+      { item: "Item Z", quantity: 50 },
+      { item: "Item A", quantity: 40 }
+    ];
+
+    const lineChartData = [
+      { item: "Item X", amount: 1000 },
+      { item: "Item Y", amount: 1500 },
+      { item: "Item Z", amount: 2000 },
+      { item: "Item A", amount: 1800 }
+    ];
+
+    const pieChartData = [
+      { name: "Electronics", value: 40 },
+      { name: "Furniture", value: 30 },
+      { name: "Stationery", value: 20 },
+      { name: "Miscellaneous", value: 10 }
+    ];
+
+    const colors = ["#8884d8", "#82ca9d", "#ffc658", "#ff6f61", "#a28eec"];
+    const colors2 = ["#FF5733", "#33FF57", "#3357FF", "#FF33A8", "#FFD433", "#33FFF5", "#8D33FF", "#FF3333", "#33FF85", "#FF8F33"];
+
+    Plotly.newPlot('statusPieChart', [{
+      values: statusData.map(d => d.value),
+      labels: statusData.map(d => d.name),
+      type: 'pie',
+      marker: { colors: colors }
+    }], { title: 'Bill Status Distribution' });
+
+    Plotly.newPlot('vendorBarChart', [{
+      x: vendorData.map(d => d.vendor),
+      y: vendorData.map(d => d.amount),
+      type: 'bar',
+      marker: { color: '#82ca9d' }
+    }], { title: 'Vendor Amount Distribution', xaxis: { title: 'Vendor' }, yaxis: { title: 'Amount' } });
+
+    Plotly.newPlot('itemBarChart', [{
+      x: barChartData.map(d => d.item),
+      y: barChartData.map(d => d.quantity),
+      type: 'bar',
+      marker: { color: colors2 }
+    }], { title: 'Item Quantity Distribution', xaxis: { title: 'Item' }, yaxis: { title: 'Quantity' } });
+
+    Plotly.newPlot('itemLineChart', [{
+      x: lineChartData.map(d => d.item),
+      y: lineChartData.map(d => d.amount),
+      type: 'line',
+      marker: { color: '#8884d8' }
+    }], { title: 'Item Amount Distribution', xaxis: { title: 'Item' }, yaxis: { title: 'Amount' } });
+
+    Plotly.newPlot('categoryPieChart', [{
+      values: pieChartData.map(d => d.value),
+      labels: pieChartData.map(d => d.name),
+      type: 'pie',
+      marker: { colors: colors }
+    }], { title: 'Category Amount Distribution' });
+
+    async function saveChartImages() {
+        const chartIds = ["statusPieChart", "vendorBarChart", "itemBarChart", "itemLineChart", "categoryPieChart"];
+        const savedImages = [];
+
+        for (const id of chartIds) {
+            try {
+                const imgData = await Plotly.toImage(id, { format: 'png', width: 800, height: 600 });
+                const link = document.createElement("a");
+                link.href = imgData;
+                link.download = `${id}.png`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                savedImages.push(`${id}.png`);
+            } catch (error) {
+                console.error(`Error saving chart ${id}:`, error);
+            }
+        }
+
+        return savedImages;
+    }
+
+    // Wait for charts to render before saving images
+    setTimeout(() => {
+        saveChartImages().then((images) => {
+            console.log("All images saved:", images);
+        });
+    }, 3000); // Wait 3 seconds for charts to fully render
+    </script>
+</body>
+</html>
