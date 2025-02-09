@@ -128,9 +128,47 @@ const billApproval = async (Bdata) => {
     return data;
 }
 
+const listAllBills = async (res, req) => {
+
+  const { data: bills, error: billError } = await supabase
+    .from("bills")
+    .select(
+      `
+          b_id,
+          vendor,
+          date,
+          final_amount,
+          status,
+          added_by,
+          created_at,
+          added_by_user:users!bills_added_by_fkey(name)
+        `
+    )
+
+  if (billError) throw billError;
+
+  const billsWithUserName = bills.map((bill) => {
+    let statusText;
+    if (bill.status === 0) {
+      statusText = "Pending";
+    } else if (bill.status === 1) {
+      statusText = "Accepted";
+    } else {
+      statusText = "Rejected";
+    }
+    return {
+      ...bill,
+      status: statusText,
+    };
+  });
+
+  return billsWithUserName;
+};
+
 module.exports = {
   listBills,
   getBillDetails,
   billApproval,
-  listUserBills
+  listUserBills,
+  listAllBills
 };

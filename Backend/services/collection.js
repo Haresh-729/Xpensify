@@ -45,22 +45,36 @@ const getCollections = async () => {
 
     if (collectionsError) throw collectionsError;
 
-    // Step 2: Fetch participants for each collection
+    // Step 2: Fetch participants
     const { data: participants, error: participantsError } = await supabase
       .from("exp_collection_participants")
       .select("ec_id, u_id, added_by, added_at, is_active");
 
     if (participantsError) throw participantsError;
 
-    // Step 3: Combine collections with participants
-    const collectionsWithParticipants = collections.map((collection) => ({
+    // Step 3: Fetch all bills with ec_id and final_amount
+    const { data: bills, error: billsError } = await supabase
+      .from("bills")
+      .select("ec_id, final_amount");
+
+    if (billsError) throw billsError;
+
+    // Step 4: Calculate total expenses for each ec_id
+    const totalExpenses = bills.reduce((acc, bill) => {
+      acc[bill.ec_id] = (acc[bill.ec_id] || 0) + bill.final_amount;
+      return acc;
+    }, {});
+
+    // Step 5: Merge collections with total_exp and participants
+    const collectionsWithData = collections.map((collection) => ({
       ...collection,
+      total_exp: totalExpenses[collection.ec_id] || 0, // Default to 0 if no bills found
       participants: participants.filter((p) => p.ec_id === collection.ec_id),
     }));
 
-    return { success: true, data: collectionsWithParticipants };
+    return { success: true, data: collectionsWithData };
   } catch (error) {
-    console.error("Error fetching collections:", error);
+    console.error("❌ Error fetching collections:", error);
     return { success: false, error };
   }
 };
