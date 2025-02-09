@@ -25,27 +25,28 @@ import UserProfile from "../components/protected/user/Profile";
 import FinanceProfile from "../components/protected/finance/Profile";
 import ManagerProfile from "../components/protected/manager/Profile";
 import CollectionListForReports from "../components/protected/all/CollectionListForReports";
+import { CalendarRange, ClipboardList, House, IndianRupee, ReceiptIndianRupee } from "lucide-react";
 //userROles = "manager", "finance", "employee"
 const features = [
   {
     featureName: "Main",
     displayName: "Home",
     allowedRoles: ["employee"],
-    logoUsed: HomeIcon,
+    logoUsed: House,
     page: MainUser,
   },
   {
     featureName: "Main",
     displayName: "Home",
     allowedRoles: ["finance"],
-    logoUsed: UserIcon,
+    logoUsed: House,
     page: MainFinance,
   },
   {
     featureName: "Main",
     displayName: "Home",
     allowedRoles: ["manager"],
-    logoUsed: UserIcon,
+    logoUsed: House,
     page: MainManager,
   },
 
@@ -55,21 +56,21 @@ const features = [
     featureName: "Scan",
     displayName: "Create Expense",
     allowedRoles: ["employee", "finance", "manager"],
-    logoUsed: UserIcon,
+    logoUsed: IndianRupee,
     page: ScanBill,
   },
   {
     featureName: "Report",
     displayName: "Reports",
     allowedRoles: ["finance", "manager"],
-    logoUsed: UserIcon,
+    logoUsed: ClipboardList,
     page: CollectionListForReports,
   },
   {
     featureName: "Collections",
     displayName: "Collections",
     allowedRoles: ["finance", "manager"],
-    logoUsed: UserIcon,
+    logoUsed: CalendarRange,
     page: Collections,
   },
 

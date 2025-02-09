@@ -78,7 +78,7 @@ function NavBar() {
           </div>
         </div>
         <div className="flex items-center justify-center p-1 cursor-pointer" onClick={logout}>
-        <ArrowRightStartOnRectangleIcon className="w-[2rem] text-black rounded-xl" />
+        <ArrowRightStartOnRectangleIcon className="w-[2rem] text-red-500 rounded-xl" />
         </div>
         </div>
       </div>
