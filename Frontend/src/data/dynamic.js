@@ -27,28 +27,32 @@ import ManagerProfile from "../components/protected/manager/Profile";
 import Chatbot from "../components/common/ChatBot";
 //userROles = "manager", "finance", "user"
 import CollectionListForReports from "../components/protected/all/CollectionListForReports";
-
-// userRoles = "manager", "finance", "employee"
+import { Bot, CalendarRange, ClipboardList, Gavel, House, IndianRupee, Plus, ReceiptIndianRupee } from "lucide-react";
+import CreateEvents from "../components/protected/finance/CreateEvents";
+import CollectionsBillList from "../components/protected/all/CollectionsBillList";
+import UserHome from "../components/protected/user/UserHome";
+import Approval from "../components/protected/manager/Approval";
+//userROles = "manager", "finance", "employee"
 const features = [
   {
     featureName: "Main",
     displayName: "Home",
     allowedRoles: ["employee"],
-    logoUsed: HomeIcon,
-    page: MainUser,
+    logoUsed: House,
+    page: UserHome,
   },
   {
     featureName: "Main",
     displayName: "Home",
     allowedRoles: ["finance"],
-    logoUsed: HomeIcon,
+    logoUsed: House,
     page: MainFinance,
   },
   {
     featureName: "Main",
     displayName: "Home",
     allowedRoles: ["manager"],
-    logoUsed: HomeIcon,
+    logoUsed: House,
     page: MainManager,
   },
 
@@ -57,28 +61,49 @@ const features = [
     featureName: "Scan",
     displayName: "Create Expense",
     allowedRoles: ["employee", "finance", "manager"],
-    logoUsed: CreditCardIcon,
+    logoUsed: IndianRupee,
     page: ScanBill,
   },
   {
     featureName: "Report",
     displayName: "Reports",
     allowedRoles: ["finance", "manager"],
-    logoUsed: ChartBarIcon,
+    logoUsed: ClipboardList,
     page: CollectionListForReports,
+  },
+  {
+    featureName: "Create Events",
+    displayName: "Create Event",
+    allowedRoles: ["finance", "manager"],
+    logoUsed: Plus,
+    page: CreateEvents,
   },
   {
     featureName: "Collections",
     displayName: "Collections",
     allowedRoles: ["finance", "manager"],
-    logoUsed: ClipboardDocumentListIcon,
+    logoUsed: CalendarRange,
     page: Collections,
+  },
+  {
+    featureName: "Approvals",
+    displayName: "Approvals",
+    allowedRoles: ["manager"],
+    logoUsed: Gavel,
+    page: Approval,
+  },
+  {
+    featureName: "All Bills",
+    displayName: "All Bills",
+    allowedRoles: ["finance", "manager"],
+    logoUsed: ClipboardList,
+    page: CollectionsBillList,
   },
   {
     featureName: "ChatBot",
     displayName: "ChatBot",
-    allowedRoles: ["finance", "manager","employee"],
-    logoUsed: UserIcon,
+    allowedRoles: ["finance", "manager", "employee"],
+    logoUsed: Bot,
     page: Chatbot,
   },
 

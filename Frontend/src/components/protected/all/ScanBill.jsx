@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { LuUpload } from "react-icons/lu";
 import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { selectAccount } from "../../../app/DashboardSlice";
 import { useSelector } from "react-redux";
+import OCROld from "../../common/OCROld";
 
 function ScanBill() {
   const [file, setFile] = useState(null);
   const [data, setData] = useState(null);
   const [popupData, setPopupData] = useState(null);
   const [filePreview, setFilePreview] = useState(null);
+  const [collections, setCollections] = useState([]);
+  const [selectedCollectionId, setSelectedCollectionId] = useState("");
+  const [popup, setPopup] = useState(false);
+
   const profileData = useSelector(selectAccount);
-  const token = profileData?.token;
+  const token = profileData?.token;  
 
   const handleFileChange = (event) => {
     const selectedFile = event.target.files[0];
@@ -65,7 +70,8 @@ function ScanBill() {
       status: data.status || 0,
       verified_by: data.verified_by || null,
       verified_at: data.verified_at || null,
-      ed_id: data.ed_id || 1,
+      ec_id: parseInt(selectedCollectionId),
+      gst_no:data.gst_no || null,
       items: (data.structured_items || []).map((item) => ({
         item_name: item.item_name,
         category: item.category || null,
@@ -95,6 +101,25 @@ function ScanBill() {
     }
   };
 
+  useEffect(() => {
+    const fetchCollections = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/collection/",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setCollections(response.data.data.data || []);
+      } catch (error) {
+        console.error("Error fetching collections:", error.message);
+      }
+    };
+    fetchCollections();
+  }, [token]);
+
   return (
     <div className="bg-white flex flex-col justify-center items-center gap-4 p-6 rounded-md w-full">
       <div className="w-[50%]">
@@ -115,12 +140,34 @@ function ScanBill() {
             onChange={handleFileChange}
           />
         </div>
-        <button
-          className="bg-dark-blue cursor-pointer text-white font-bold border-none w-full py-2 px-8 mt-5 rounded-[5rem] hover:scale-105 transition"
-          onClick={handleScanBill}
-        >
-          Scan Bill
-        </button>
+        <div className="flex items-center mt-5 gap-4">
+          <select
+            value={selectedCollectionId}
+            onChange={(e) => setSelectedCollectionId(e.target.value)}
+            className="bg-white border border-gray-300 p-2 rounded-md w-[50%]"
+          >
+            <option value="">Select a Collection</option>
+            {collections.map((collection) => (
+              <option key={collection.ec_id} value={collection.ec_id}>
+                {collection.name}
+              </option>
+            ))}
+          </select>
+          <div className="w-full">
+            <button
+              className="bg-dark-blue cursor-pointer text-white font-bold border-none w-full py-2 px-8 rounded-[5rem] hover:scale-105 transition"
+              onClick={handleScanBill}
+            >
+              Scan Bill
+            </button>
+            <p
+              onClick={() => setPopup(true)}
+              className="text-sm text-center mt-2 text-blue-500 underline cursor-pointer"
+            >
+              Click here to upload photo of real bill
+            </p>
+          </div>
+        </div>
 
         <div className={`flex`}>
           <div>
@@ -147,9 +194,7 @@ function ScanBill() {
                 </div>
 
                 <div className="bg-white rounded-md">
-                  <h3 className=" text-gray-800 mb-3">
-                    Items List
-                  </h3>
+                  <h3 className=" text-gray-800 mb-3">Items List</h3>
                   <table className="w-full table-auto border-collapse border border-gray-300">
                     <thead>
                       <tr className="bg-blue-50 text-left">
@@ -230,6 +275,12 @@ function ScanBill() {
           onSave={(remark) => handleSaveRemark(remark)}
           onClose={() => setPopupData(null)}
         />
+      )}
+
+      {popup && (
+        <div className="bg-opacity absolute inset-0 flex justify-center items-center z-50">
+          <OCROld />
+        </div>
       )}
     </div>
   );
