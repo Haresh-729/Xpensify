@@ -8,6 +8,7 @@ import { isUserLoggedIn } from './src/app/DashboardSlice';
 import { VerifyEmail } from './src/components';
 import { Navbar } from './src/components';
 import CreateEvents from './src/components/protected/finance/CreateEvents';
+import CollectionsBillList from './src/components/protected/all/CollectionsBillList';
 
 // import AddHospital from './src/components/protected/admin/AddHospital';
 
@@ -33,6 +34,7 @@ const RoutesConfig = () => {
           element={<Dashboard />}
         />
       )}
+      <Route path="/collections" element={<CollectionsBillList />} />
     </Routes>
   );
 }

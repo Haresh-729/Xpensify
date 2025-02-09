@@ -121,7 +121,7 @@ const getCreatedCollections = async (user_id) => {
       participants: participants.filter((p) => p.ec_id === collection.ec_id),
     }));
 
-    return { success: true, data: collectionsWithParticipants };
+    return collectionsWithParticipants;
   } catch (error) {
     console.error("Error fetching user-specific collections:", error);
     return { success: false, error };

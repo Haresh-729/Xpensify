@@ -133,7 +133,7 @@ function ScanBill() {
           <div className="flex gap-8">
             {data && (
               <div className="flex-1 p-5 w-full rounded-sm shadow-md mt-5">
-                <div className="text-lg font-bold text-gray-700 mb-3">
+                <div className="font-xm text-gray-700 mb-3">
                   <p>
                     Vendor Name:{" "}
                     <span className="font-medium capitalize">
@@ -147,7 +147,7 @@ function ScanBill() {
                 </div>
 
                 <div className="bg-white rounded-md">
-                  <h3 className="text-xl font-bold text-gray-800 mb-3">
+                  <h3 className=" text-gray-800 mb-3">
                     Items List
                   </h3>
                   <table className="w-full table-auto border-collapse border border-gray-300">

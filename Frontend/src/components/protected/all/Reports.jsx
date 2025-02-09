@@ -24,7 +24,7 @@ import { FaArrowLeft } from "react-icons/fa";
 const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff6f61", "#a28eec"];
 const COLORS2 = ["#FF5733", "#33FF57", "#3357FF", "#FF33A8", "#FFD433", "#33FFF5", "#8D33FF", "#FF3333", "#33FF85", "#FF8F33"];
 
-const Reports = () => {
+const Reports = ({ id, setBillScreenOpen }) => {
   const [billsData, setBillsData] = useState([]);
   const [loading, setLoading] = useState(false);
   const profileData = useSelector(selectAccount);
@@ -44,7 +44,7 @@ const Reports = () => {
         const response = await axios.get(
           "http://localhost:3000/api/report/get-collection-bills",
           {
-            params: { ec_id: 1 }, // Replace with dynamic ec_id value
+            params: { ec_id: id }, // Replace with dynamic ec_id value
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -156,7 +156,13 @@ const Reports = () => {
     <div className="flex w-full justify-center">
       {!isModal && (
         <div className="w-[70%] p-10 flex flex-col gap-4 bg-white shadow-md rounded-md">
-          <p className="text-2xl font-bold pl-2">All Bills</p>
+          <h3 className="text-xl font-semibold pl-2 flex items-center gap-4">
+            <FaArrowLeft
+              className="cursor-pointer"
+              onClick={() => setBillScreenOpen(null)}
+            />
+            All Bills
+          </h3>
           <Table
             columns={columns}
             dataSource={billsData.map((bill) => ({ ...bill, key: bill.b_id }))}

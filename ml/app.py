@@ -11,7 +11,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
-CATEGORY_LIST = ['decoration', 'food', 'beverage', 'clothing']
+CATEGORY_LIST = ['decoration', 'food', 'beverage', 'clothing', 'travel', 'accommodation']
 api_key = "AIzaSyDAvKGmRKcz-2yicwnYr9wt-JTGiitq_58"
 
 # Helper functions
