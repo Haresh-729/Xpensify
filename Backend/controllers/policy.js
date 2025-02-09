@@ -40,7 +40,7 @@ const deletePolicyById = async (req, res) => {
 
  const getEventPoliciesFormatted = async (req, res) => {
     try {
-      const data = await policyService.getEventPoliciesFormatted();
+      const data = await policyService.getEventPoliciesFormatted(req, res);
       res.status(200).json({ success: true, data });
     } catch (error) {
       res.status(500).json({ success: false, message: error.message });
