@@ -1,16 +1,17 @@
-//all the data required to make the website dynamic will be stored here this will not be the dummy data. Without this the website will not work...i.e. this is the most important of all....
+// All the data required to make the website dynamic will be stored here. 
+// This will not be dummy data. Without this, the website will not work... 
+// i.e., this is the most important of all.
+
 import {
   HomeIcon,
   UserIcon,
-  BellAlertIcon,
-  EnvelopeOpenIcon,
-  BuildingStorefrontIcon,
-  Bars4Icon,
-  ArrowLeftIcon,
-  ChevronDoubleLeftIcon,
-  GlobeEuropeAfricaIcon,
+  DocumentTextIcon,
+  CreditCardIcon,
+  ClipboardDocumentListIcon,
+  ChartBarIcon,
+  ReceiptRefundIcon,
+  UserCircleIcon,
 } from "@heroicons/react/24/solid";
-
 
 import MainUser from "../components/protected/user/Main";
 import MainFinance from "../components/protected/finance/Main";
@@ -20,14 +21,14 @@ import ScanBill from "../components/protected/all/ScanBill";
 import Reports from "../components/protected/all/Reports";
 import Collections from "../components/protected/all/Collections";
 
-
 import UserProfile from "../components/protected/user/Profile";
 import FinanceProfile from "../components/protected/finance/Profile";
 import ManagerProfile from "../components/protected/manager/Profile";
 import Chatbot from "../components/common/ChatBot";
 //userROles = "manager", "finance", "user"
 import CollectionListForReports from "../components/protected/all/CollectionListForReports";
-//userROles = "manager", "finance", "employee"
+
+// userRoles = "manager", "finance", "employee"
 const features = [
   {
     featureName: "Main",
@@ -40,38 +41,37 @@ const features = [
     featureName: "Main",
     displayName: "Home",
     allowedRoles: ["finance"],
-    logoUsed: UserIcon,
+    logoUsed: HomeIcon,
     page: MainFinance,
   },
   {
     featureName: "Main",
     displayName: "Home",
     allowedRoles: ["manager"],
-    logoUsed: UserIcon,
+    logoUsed: HomeIcon,
     page: MainManager,
   },
 
-  // following can be assigned to multiple users
-
+  // Features assigned to multiple roles
   {
     featureName: "Scan",
     displayName: "Create Expense",
     allowedRoles: ["employee", "finance", "manager"],
-    logoUsed: UserIcon,
+    logoUsed: CreditCardIcon,
     page: ScanBill,
   },
   {
     featureName: "Report",
     displayName: "Reports",
     allowedRoles: ["finance", "manager"],
-    logoUsed: UserIcon,
+    logoUsed: ChartBarIcon,
     page: CollectionListForReports,
   },
   {
     featureName: "Collections",
     displayName: "Collections",
     allowedRoles: ["finance", "manager"],
-    logoUsed: UserIcon,
+    logoUsed: ClipboardDocumentListIcon,
     page: Collections,
   },
   {
@@ -82,26 +82,26 @@ const features = [
     page: Chatbot,
   },
 
-  //Profile Page Should be last and can be assigned to only one role per feature...
+  // Profile Page (should be last and assigned to only one role per feature)
   {
     featureName: "Profile",
     displayName: "Profile",
     allowedRoles: ["employee"],
-    logoUsed: UserIcon,
+    logoUsed: UserCircleIcon,
     page: UserProfile,
   },
   {
     featureName: "Profile",
     displayName: "Profile",
     allowedRoles: ["finance"],
-    logoUsed: UserIcon,
+    logoUsed: UserCircleIcon,
     page: FinanceProfile,
   },
   {
     featureName: "Profile",
     displayName: "Profile",
     allowedRoles: ["manager"],
-    logoUsed: UserIcon,
+    logoUsed: UserCircleIcon,
     page: ManagerProfile,
   },
 ];
