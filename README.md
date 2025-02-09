@@ -36,6 +36,18 @@ https://drive.google.com/drive/folders/1WSY_2pHomHpYVEaA-XaNkgA7mPeAi0wv?usp=sha
 * Track expense approval status.
 * View past expenses and reimbursement details.
 
+## 📊 System Flow Diagrams
+
+### 1️⃣ **Expense Tracking Flow**
+![Expense Tracking](https://github.com/user-attachments/assets/1b943007-f80b-4217-889b-7ba403932e11)
+
+### 2️⃣ **Fraud Detection & AI Insights**
+![Fraud Detection](https://github.com/user-attachments/assets/447ef723-e866-4750-9020-e506967416cc)
+
+### 3️⃣ **Secure Banking API Integration**
+![Banking API](https://github.com/user-attachments/assets/b915a92d-eab2-4aa7-999d-64f9be9699f8)
+
+
 ## 🛠️ Tech Stack
 
 * **Frontend:** React.js, TailwindCSS,Redux
