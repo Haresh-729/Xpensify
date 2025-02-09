@@ -5,9 +5,12 @@ import { useSelector } from "react-redux";
 import { selectAccount } from "../../../app/DashboardSlice";
 import moment from "moment";
 import { Spin } from "antd";
+import FraudReport from "../all/FraudReport";
+
 
 const Collections = () => {
   const [isPolicyModalOpen, setIsPolicyModalOpen] = useState(false);
+  const [ShowReport, setShowReport] = useState(false);
   const [isNewPolicyModalOpen, setIsNewPolicyModalOpen] = useState(false);
   const [selectedEventId, setSelectedEventId] = useState(null);
   const [events, setEvents] = useState(null);
@@ -81,6 +84,29 @@ const Collections = () => {
     }
     setSelectedEventId(eventId);
     setIsPolicyModalOpen(true);
+  };
+
+  const handleShowReport = async (eventId) => {
+    setLoading(true);
+    // e.preventDefault();
+    //console.error("Error fetching");
+    // try {
+    //   const response = await axios.get(
+    //     "http://localhost:3000/api/policy/event/" + eventId,
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     }
+    //   );
+    //   setPolicies(response.data.data);
+    // } catch (error) {
+    //   console.error("Error fetching bills:", error);
+    // } finally {
+    //   setLoading(false);
+    // }
+    setSelectedEventId(eventId);
+    setShowReport(true);
   };
 
   const handleSubmitPolicy = async (e) => {
@@ -168,6 +194,7 @@ const Collections = () => {
           {events &&
             events.map((event) => (
               <div
+                //onClick={() => handleShowReport(event.id)}
                 key={event.id}
                 className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
               >
@@ -376,7 +403,10 @@ const Collections = () => {
         </div>
       )}
 
-      {/* New Policy Modal */}
+      {/* New Policy Modal
+      {ShowReport && (
+        <FraudReport/>
+      )} */}
     </div>
   );
 };
