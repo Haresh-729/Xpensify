@@ -20,6 +20,7 @@ import ScanBill from "../components/protected/all/ScanBill";
 import Reports from "../components/protected/all/Reports";
 import Collections from "../components/protected/all/Collections";
 
+
 import UserProfile from "../components/protected/user/Profile";
 import FinanceProfile from "../components/protected/finance/Profile";
 import ManagerProfile from "../components/protected/manager/Profile";
