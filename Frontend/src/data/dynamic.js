@@ -24,6 +24,8 @@ import Collections from "../components/protected/all/Collections";
 import UserProfile from "../components/protected/user/Profile";
 import FinanceProfile from "../components/protected/finance/Profile";
 import ManagerProfile from "../components/protected/manager/Profile";
+import Chatbot from "../components/common/ChatBot";
+//userROles = "manager", "finance", "user"
 import CollectionListForReports from "../components/protected/all/CollectionListForReports";
 import { CalendarRange, ClipboardList, House, IndianRupee, ReceiptIndianRupee } from "lucide-react";
 //userROles = "manager", "finance", "employee"
@@ -72,6 +74,13 @@ const features = [
     allowedRoles: ["finance", "manager"],
     logoUsed: CalendarRange,
     page: Collections,
+  },
+  {
+    featureName: "ChatBot",
+    displayName: "ChatBot",
+    allowedRoles: ["finance", "manager","employee"],
+    logoUsed: UserIcon,
+    page: Chatbot,
   },
 
   //Profile Page Should be last and can be assigned to only one role per feature...

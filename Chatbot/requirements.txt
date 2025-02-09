@@ -1,0 +1,8 @@
+Flask==3.0.0
+Flask-Cors==4.0.0
+python-dotenv==1.0.0
+google-generativeai==0.4.0
+faiss==1.7.4  # Prebuilt FAISS package
+langchain==0.1.8
+langchain-community==0.0.22  # Updated to resolve the conflict
+langchain-openai==0.0.7
