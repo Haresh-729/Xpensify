@@ -1,9 +1,53 @@
 import React, { useEffect, useState } from "react";
-import { AlertCircle, CheckCircle, FileText,Flag } from 'lucide-react';
+import { AlertCircle, CheckCircle, FileText, Flag } from 'lucide-react';
 import { FaArrowLeft } from "react-icons/fa";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { selectAccount } from "../../../app/DashboardSlice";
 
 const FraudReport = ({ setShowReport }) => {
   const [actionLoading, setActionLoading] = useState(false); // Loading state for buttons
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const profileData = useSelector(selectAccount);
+  const token = profileData?.token;
+
+  const fetchPolicyData = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        "http://localhost:3000/api/policy/events",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setData(response.data.data);
+    } catch (error) {
+      console.error("Error fetching bills:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchPolicyData();
+    getPolicyCompliance();
+  }, [])
+
+  console.log(data);
+
+  const getPolicyCompliance = async () => {
+
+    try {
+      const res = await axios.post("http://localhost:5000/policy", { message: data }, { headers: { "Content-Type": "application/json" } });
+      console.log(res.data);
+      
+    } catch (error) {
+      console.error("Error fetching chatbot response", error);
+    }
+  };
 
   const policies = [
     {

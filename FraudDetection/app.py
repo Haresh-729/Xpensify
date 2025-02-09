@@ -10,8 +10,10 @@ from sklearn.preprocessing import StandardScaler
 import re
 import pdfplumber
 import pandas as pd
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+CORS(app, support_credentials=True)
 
 GST_STATE_CODES = {
     "24": "Gujarat",
@@ -258,6 +260,7 @@ def check_historical_fraud(event, category, amount):
 
 
 @app.route('/detect', methods=['POST'])
+@cross_origin(supports_credentials=True)
 def detect_fraud_api():
     global bills
     
@@ -373,36 +376,52 @@ event_policies = {
 }
 
 def check_policy_compliance(event, category, amount, reason):
-    errors = []
-    # Check if the event exists
+    response = {}
+    
+    # Ensure event exists
     if event not in event_policies:
-        errors.append(f"Event '{event}' is not recognized.")
-        return errors  # No need to continue if event is not found
+        response["event_status"] = "❌ Event not recognized."
+        return response  # Exit early if event is invalid
     
     policies = event_policies[event]
-    allowed_categories = policies.get("allowed_categories", [])
-    category_limits = policies.get("category_limits", {})
+
+    # Convert category limits to integers
+    category_limits = {k: int(v) for k, v in policies.get("category_limits", {}).items()}
+
+    # Remove duplicate categories
+    allowed_categories = list(set(policies.get("allowed_categories", [])))
+
     required_fields = policies.get("required_fields", [])
-    
-    # Check if the category is allowed
-    if category not in allowed_categories:
-        errors.append(f"Category '{category}' is not allowed for event '{event}'.")
-    
-    # Check if a spending limit is defined and if the amount exceeds it
+
+    # ✅ Check if category is allowed
+    response["category_status"] = "✅ Allowed" if category in allowed_categories else "❌ Not Allowed"
+
+    # ✅ Sum amounts for duplicate categories before checking limits
+    total_category_amount = sum(
+        bill["amount"] for bill in bills 
+        if bill["event"] == event and bill["category"] == category
+    ) + amount  # Include the new amount
+
+    # ✅ Check if amount exceeds category limit
     if category in category_limits:
-        if amount > category_limits[category]:
-            errors.append(f"Amount ₹{amount} exceeds the limit for '{category}' (limit: ₹{category_limits[category]}).")
+        response["amount_status"] = (
+            "✅ Within Limit"
+            if total_category_amount <= category_limits[category]
+            else f"❌ Exceeds Limit (Total: ₹{total_category_amount}, Limit: ₹{category_limits[category]})"
+        )
     else:
-        errors.append(f"No spending limit defined for category '{category}' in event '{event}'.")
-    
-    # Check for missing justification if required
-    if "reason" in required_fields:
-        if not reason or not reason.strip():
-            errors.append("Justification is required but missing.")
-    
-    return errors
+        response["amount_status"] = "❌ No Spending Limit Defined"
+
+    # ✅ Check for required justification
+    response["justification_status"] = (
+        "✅ Provided" if "reason" in required_fields and reason.strip() else "❌ Missing"
+    )
+
+    return response
+
 
 @app.route('/policy', methods=['POST'])
+@cross_origin(supports_credentials=True)
 def policy_compliance():
     data = request.json
     event = data.get("event", "")
