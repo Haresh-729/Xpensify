@@ -1,4 +1,7 @@
+
 const { supabase } = require("../config/config");
+const { DateTime } = require("luxon");
+const { CollectionsPDF } = require("./pdfGenerator/CollectionsPDF");
 
 const createCollections = async (user_id, name, description, users) => {
   console.log("from services ", name, users, user_id);
@@ -45,22 +48,36 @@ const getCollections = async () => {
 
     if (collectionsError) throw collectionsError;
 
-    // Step 2: Fetch participants for each collection
+    // Step 2: Fetch participants
     const { data: participants, error: participantsError } = await supabase
       .from("exp_collection_participants")
       .select("ec_id, u_id, added_by, added_at, is_active");
 
     if (participantsError) throw participantsError;
 
-    // Step 3: Combine collections with participants
-    const collectionsWithParticipants = collections.map((collection) => ({
+    // Step 3: Fetch all bills with ec_id and final_amount
+    const { data: bills, error: billsError } = await supabase
+      .from("bills")
+      .select("ec_id, final_amount");
+
+    if (billsError) throw billsError;
+
+    // Step 4: Calculate total expenses for each ec_id
+    const totalExpenses = bills.reduce((acc, bill) => {
+      acc[bill.ec_id] = (acc[bill.ec_id] || 0) + bill.final_amount;
+      return acc;
+    }, {});
+
+    // Step 5: Merge collections with total_exp and participants
+    const collectionsWithData = collections.map((collection) => ({
       ...collection,
+      total_exp: totalExpenses[collection.ec_id] || 0, // Default to 0 if no bills found
       participants: participants.filter((p) => p.ec_id === collection.ec_id),
     }));
 
-    return { success: true, data: collectionsWithParticipants };
+    return { success: true, data: collectionsWithData };
   } catch (error) {
-    console.error("Error fetching collections:", error);
+    console.error("❌ Error fetching collections:", error);
     return { success: false, error };
   }
 };
@@ -176,7 +193,113 @@ const getUserParticipant = async (user_id) => {
   }
 };
 
+
+// const getCollectionsTrigger = async (days, detailed) => {
+//   try {
+//     const pastDate = DateTime.now().minus({ days: Number(days) }).toISO();
+
+//     // Step 1: Fetch collections
+//     const { data: collections, error: collectionsError } = await supabase
+//       .from("exp_collections")
+//       .select("ec_id, name, description, created_by, created_at, status, approved_by, approved_at")
+//       .gte("created_at", pastDate);
+
+//     if (collectionsError) throw collectionsError;
+
+//     if (collections.length === 0) return { success: true, data: [] };
+
+//     // Step 2: Fetch participants
+//     const collectionIds = collections.map((c) => c.ec_id);
+//     const { data: participants, error: participantsError } = await supabase
+//       .from("exp_collection_participants")
+//       .select("*") // Fetching all columns for debugging
+//       .in("ec_id", collectionIds);
+
+//     if (participantsError) throw participantsError;
+
+//     console.log("🔍 Fetched Participants:", JSON.stringify(participants, null, 2));
+
+//     // Step 3: Combine collections with participants
+//     const collectionsWithParticipants = collections.map((collection) => ({
+//       ...collection,
+//       participants: participants.filter((p) => p.ec_id === collection.ec_id) || [],
+//     }));
+
+//     console.log("✅ Final Output:", JSON.stringify(collectionsWithParticipants, null, 2));
+//     return { success: true, data: collectionsWithParticipants };
+
+//   } catch (error) {
+//     console.error("❌ Error fetching collections:", error);
+//     return { success: false, error: error.message };
+//   }
+// };
+
+const getCollectionsTrigger = async (days, detailed) => {
+  try {
+    const interval = `${days} days`; // Dynamic interval
+
+    const query = `
+      SELECT 
+          ec.ec_id, 
+          ec.name, 
+          ec.description, 
+          ec.created_at, 
+          ec.status, 
+          ec.approved_by, 
+          ec.approved_at, 
+          u.name AS created_by_name, 
+          COALESCE(
+              JSONB_AGG(DISTINCT up.name) FILTER (WHERE up.name IS NOT NULL), '[]'
+          ) AS participants
+      FROM 
+          exp_collections ec
+      JOIN 
+          users u ON ec.created_by = u.u_id
+      LEFT JOIN 
+          exp_collection_participants ep ON ec.ec_id = ep.ec_id
+      LEFT JOIN 
+          users up ON ep.u_id = up.u_id
+      WHERE 
+          ec.created_at >= NOW() - INTERVAL '${interval}'
+      GROUP BY 
+          ec.ec_id, u.name
+      ORDER BY 
+          ec.created_at DESC;
+    `;
+
+    const { data, error } = await supabase.rpc('execute_raw_sql', { query });
+
+    if (error) throw error;
+
+    console.log("✅ Final Output:", JSON.stringify(data, null, 2));
+
+    return { success: true, data };
+
+  } catch (error) {
+    console.error("❌ Error fetching collections:", error);
+    return { success: false, error };
+  }
+};
+
+
+const reportTriggering = async (days, detailed) => {
+  try {
+    console.log(days, detailed);
+    const { success, data } = await getCollectionsTrigger(days, detailed);
+
+    if (!success) throw new Error("Failed to fetch collections");
+
+    // Save PDF inside ./services/generatedReports with correct naming
+    const pdfPath = await CollectionsPDF(data, days);
+
+    return { success: true, pdfPath }; // Return PDF file path
+  } catch (error) {
+    console.error("Error Generating PDF collections:", error);
+    return { success: false, error };
+  }
+};
+
 module.exports = {
-    createCollections, getCollections, getCreatedCollections, getUserParticipant
+    createCollections, getCollections, getCreatedCollections, getUserParticipant, getCollectionsTrigger, reportTriggering 
 
 }

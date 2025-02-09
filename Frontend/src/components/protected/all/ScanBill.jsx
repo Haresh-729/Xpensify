@@ -4,6 +4,7 @@ import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { selectAccount } from "../../../app/DashboardSlice";
 import { useSelector } from "react-redux";
+import OCROld from "../../common/OCROld";
 
 function ScanBill() {
   const [file, setFile] = useState(null);
@@ -12,6 +13,7 @@ function ScanBill() {
   const [filePreview, setFilePreview] = useState(null);
   const [collections, setCollections] = useState([]);
   const [selectedCollectionId, setSelectedCollectionId] = useState("");
+  const [popup, setPopup] = useState(false);
 
   const profileData = useSelector(selectAccount);
   const token = profileData?.token;  
@@ -69,6 +71,7 @@ function ScanBill() {
       verified_by: data.verified_by || null,
       verified_at: data.verified_at || null,
       ec_id: parseInt(selectedCollectionId),
+      gst_no:data.gst_no || null,
       items: (data.structured_items || []).map((item) => ({
         item_name: item.item_name,
         category: item.category || null,
@@ -150,12 +153,20 @@ function ScanBill() {
               </option>
             ))}
           </select>
-          <button
-            className="bg-dark-blue cursor-pointer text-white font-bold border-none w-full py-2 px-8 rounded-[5rem] hover:scale-105 transition"
-            onClick={handleScanBill}
-          >
-            Scan Bill
-          </button>
+          <div className="w-full">
+            <button
+              className="bg-dark-blue cursor-pointer text-white font-bold border-none w-full py-2 px-8 rounded-[5rem] hover:scale-105 transition"
+              onClick={handleScanBill}
+            >
+              Scan Bill
+            </button>
+            <p
+              onClick={() => setPopup(true)}
+              className="text-sm text-center mt-2 text-blue-500 underline cursor-pointer"
+            >
+              Click here to upload photo of real bill
+            </p>
+          </div>
         </div>
 
         <div className={`flex`}>
@@ -264,6 +275,12 @@ function ScanBill() {
           onSave={(remark) => handleSaveRemark(remark)}
           onClose={() => setPopupData(null)}
         />
+      )}
+
+      {popup && (
+        <div className="bg-opacity absolute inset-0 flex justify-center items-center z-50">
+          <OCROld />
+        </div>
       )}
     </div>
   );
