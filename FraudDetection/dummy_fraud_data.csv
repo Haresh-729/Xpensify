@@ -1,0 +1,11 @@
+date,event,category,amount,reason,gst_no,fraud_remark,fraud,amount_scaled
+2025-01-10,Business Trip US,Travel,45000.0,Flight ticket,07XYZAB2345K2L6,[],No,0.6201892383411551
+2025-01-11,Business Trip US,Food,3000.0,Lunch with clients,27ABCDE1234F1Z5,[],No,-0.6014445922631003
+2025-01-12,Tech Conference,Travel,38000.0,Cab fare,27ABCDE1234F1Z5,[],No,0.4165835999071125
+2025-01-13,Client Meeting,Food,2500.0,Dinner with client,07XYZAB2345K2L6,[],No,-0.6159878521512463
+2025-01-14,Business Trip US,Accommodation,9500.0,Hotel stay,07XYZAB2345K2L6,[],No,-0.4123822137172037
+2025-02-22,Client Meeting,Food,2000.0,Dinner with VIP clients,27AAACC1206D1ZG,[],No,-0.6305311120393922
+2025-02-22,Client Meeting,Food,2000.0,Dinner with VIP clients,99AAACC1206D1ZG,['Invalid state code 99 in GST.'],Yes,-0.6305311120393922
+2025-02-22,Client Meeting,Food,1100.0,Dinner with VIP clients,27AAACC1206D1ZG,[],No,-0.6567089798380548
+2025-02-22,Client Meeting,Food,110000.0,Dinner with VIP clients,27AAACC1206D1ZG,['Spending anomaly detected (amount deviation exceeds threshold).'],Yes,2.5108130238001216
+2025-02-22,Client Meeting,Food,1110.0,Dinner with VIP clients,27AAACC1206D1ZG,[],No,0.0

@@ -24,6 +24,8 @@ import Collections from "../components/protected/all/Collections";
 import UserProfile from "../components/protected/user/Profile";
 import FinanceProfile from "../components/protected/finance/Profile";
 import ManagerProfile from "../components/protected/manager/Profile";
+import Chatbot from "../components/common/ChatBot";
+//userROles = "manager", "finance", "user"
 import CollectionListForReports from "../components/protected/all/CollectionListForReports";
 
 // userRoles = "manager", "finance", "employee"
@@ -71,6 +73,13 @@ const features = [
     allowedRoles: ["finance", "manager"],
     logoUsed: ClipboardDocumentListIcon,
     page: Collections,
+  },
+  {
+    featureName: "ChatBot",
+    displayName: "ChatBot",
+    allowedRoles: ["finance", "manager","employee"],
+    logoUsed: UserIcon,
+    page: Chatbot,
   },
 
   // Profile Page (should be last and assigned to only one role per feature)
